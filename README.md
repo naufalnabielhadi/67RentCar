@@ -22,6 +22,7 @@ Project ini dibuat untuk tugas besar PBO dan disusun agar bisa dikerjakan berkel
 - JDBC
 - MySQL
 - Maven WAR
+- Bootstrap 5 lokal
 - HTML, CSS, dan JavaScript
 
 ## Struktur Project
@@ -46,7 +47,16 @@ Folder penting:
 - `config` berisi konfigurasi koneksi database.
 - `WEB-INF/views` berisi halaman JSP.
 - `assets` berisi CSS, JavaScript, gambar, dan referensi UI.
+- `assets/bootstrap` berisi Bootstrap 5 lokal untuk layout dan komponen UI.
 - `database/67rentcar.sql` berisi struktur database dan data awal.
+
+## Catatan Teknis
+
+- Project ini memakai Tomcat 11, sehingga semua Servlet menggunakan `jakarta.servlet`, bukan `javax.servlet`.
+- Jangan memakai `javax.servlet` di Tomcat 11 karena namespace tersebut tidak kompatibel dengan Jakarta EE yang dipakai Tomcat 11.
+- Project memakai Bootstrap 5 lokal dari `src/main/webapp/assets/bootstrap`.
+- Custom CSS di `src/main/webapp/assets/css/style.css` tetap dipakai agar tampilan mengikuti identitas dan desain 67 RENT CAR, bukan template Bootstrap polos.
+- Bootstrap dipakai seperlunya untuk layout, form, table, navbar, card, badge, dan modal.
 
 ## Cara Import Database
 
@@ -234,4 +244,3 @@ target/
 .idea/
 nbproject/private/
 ```
-

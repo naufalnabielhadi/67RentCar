@@ -1,9 +1,15 @@
 target/
 *.class
 *.war
+*.jar
+
 .DS_Store
+Thumbs.db
+
 .idea/
 .vscode/
 nbproject/private/
+
+*.log
 *.iml
 .env

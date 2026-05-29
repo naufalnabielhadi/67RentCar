@@ -10,7 +10,7 @@ public class DatabaseConnection {
     // Ganti localhost jika MySQL ada di komputer/server lain.
     // Ganti 3306 jika port MySQL Anda berbeda.
     // Ganti 67rentcar jika nama database yang di-import berbeda.
-    private static final String URL = "jdbc:mysql://localhost:3306/67rentcar?useSSL=false&serverTimezone=Asia/Jakarta";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/67rentcar?useSSL=false&serverTimezone=Asia/Jakarta&allowPublicKeyRetrieval=true";
 
     // Ganti USERNAME dan PASSWORD sesuai user MySQL Anda.
     // Default XAMPP biasanya username root dan password kosong.
