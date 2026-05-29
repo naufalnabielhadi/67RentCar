@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Honda Brio">
+  <rect width="640" height="360" fill="#fff0ed"/>
+  <path d="M126 226h386c18 0 32 14 32 32v26H94v-26c0-18 14-32 32-32z" fill="#b42318"/>
+  <path d="M220 150h190l66 76H164l56-76z" fill="#ffffff"/>
+  <path d="M244 168h70v48H202l42-48zM334 168h66l40 48H334v-48z" fill="#ffd4cc"/>
+  <circle cx="190" cy="286" r="40" fill="#17202a"/>
+  <circle cx="448" cy="286" r="40" fill="#17202a"/>
+  <circle cx="190" cy="286" r="16" fill="#ffffff"/>
+  <circle cx="448" cy="286" r="16" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Toyota Avanza">
+  <rect width="640" height="360" fill="#edf8f1"/>
+  <path d="M112 224h416c20 0 34 14 34 34v26H78v-26c0-20 14-34 34-34z" fill="#167a4a"/>
+  <path d="M202 136h230l78 88H140l62-88z" fill="#ffffff"/>
+  <path d="M230 158h78v54H192l38-54zM330 158h88l48 54H330v-54z" fill="#cdebd8"/>
+  <circle cx="188" cy="286" r="42" fill="#17202a"/>
+  <circle cx="452" cy="286" r="42" fill="#17202a"/>
+  <circle cx="188" cy="286" r="17" fill="#ffffff"/>
+  <circle cx="452" cy="286" r="17" fill="#ffffff"/>
+</svg>

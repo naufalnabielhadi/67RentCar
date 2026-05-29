@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Mobil">
+  <rect width="640" height="360" fill="#e7f5f7"/>
+  <path d="M122 220h396c18 0 34 14 34 32v28H88v-28c0-18 16-32 34-32z" fill="#153e6f"/>
+  <path d="M196 140h236l70 80H138l58-80z" fill="#f6c445"/>
+  <path d="M222 160h82v52H184l38-52zM326 160h94l46 52H326v-52z" fill="#ffffff" opacity=".85"/>
+  <circle cx="190" cy="280" r="42" fill="#17202a"/>
+  <circle cx="190" cy="280" r="18" fill="#ffffff"/>
+  <circle cx="454" cy="280" r="42" fill="#17202a"/>
+  <circle cx="454" cy="280" r="18" fill="#ffffff"/>
+</svg>

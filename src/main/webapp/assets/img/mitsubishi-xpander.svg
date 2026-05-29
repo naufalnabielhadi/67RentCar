@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Mitsubishi Xpander">
+  <rect width="640" height="360" fill="#eef2ff"/>
+  <path d="M104 218h430c22 0 38 16 38 38v30H68v-30c0-22 16-38 36-38z" fill="#153e6f"/>
+  <path d="M194 132h250l86 86H132l62-86z" fill="#f6c445"/>
+  <path d="M224 154h90v52H186l38-52zM338 154h92l52 52H338v-52z" fill="#ffffff" opacity=".9"/>
+  <circle cx="186" cy="286" r="44" fill="#17202a"/>
+  <circle cx="464" cy="286" r="44" fill="#17202a"/>
+  <circle cx="186" cy="286" r="18" fill="#ffffff"/>
+  <circle cx="464" cy="286" r="18" fill="#ffffff"/>
+</svg>
