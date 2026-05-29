@@ -1,0 +1,519 @@
+﻿/* payment.css - style halaman pembayaran */
+
+.payment-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.28fr) minmax(420px, 0.9fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.booking-car-card,
+.payment-summary {
+    overflow: hidden;
+}
+
+.booking-car-card .detail-image,
+.payment-summary .detail-image {
+    height: 250px;
+    border: 0;
+    border-radius: 0;
+}
+
+.booking-car-card .content,
+.payment-summary .content {
+    padding: 24px;
+}
+
+.estimate-box,
+.total-box {
+    margin: 24px 0 32px;
+    padding: 28px 24px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #edf3ff;
+}
+
+.estimate-total,
+.total-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    color: var(--navy);
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.payment-method {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0 22px;
+}
+
+.payment-method label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 58px;
+    margin: 0;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text);
+    background: #ffffff;
+}
+
+.payment-method input {
+    width: 20px;
+    min-height: 20px;
+}
+
+.payment-status-icon {
+    display: grid;
+    width: 56px;
+    height: 56px;
+    margin: 28px auto 20px;
+    border-radius: 16px;
+    place-items: center;
+    color: #b40f19;
+    background: #ffd9d9;
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.payment-waiting {
+    color: #c91924;
+}
+
+.payment-safe {
+    color: #087c6c;
+}
+
+.payment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.payment-status-icon {
+    margin: 22px auto 16px;
+}
+
+.payment-safe-icon {
+    color: #087c6c;
+    background: #d9fbf4;
+    font-size: 0;
+}
+
+.payment-safe-icon::before {
+    content: "";
+    width: 27px;
+    height: 27px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.payment-card .btn-primary,
+.payment-card .btn-secondary {
+    margin-top: 18px;
+}
+
+.dashboard-card.center,
+.payment-card {
+    min-height: 300px;
+    justify-content: center;
+    padding: 32px 28px;
+}
+
+@media (max-width: 1180px) {
+    .payment-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .app-shell,
+    .admin-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        min-height: 100vh;
+    }
+
+    .mobile-appbar {
+        position: sticky;
+        top: 0;
+        z-index: 90;
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: 52px minmax(0, 1fr) 52px;
+        align-items: center;
+        min-height: 64px;
+        padding: 0 14px;
+        color: #ffffff;
+        background: var(--navy);
+        box-shadow: 0 10px 24px rgba(0, 24, 53, 0.14);
+    }
+
+    .mobile-brand {
+        justify-self: center;
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+    .mobile-brand::before {
+        content: "";
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        vertical-align: -2px;
+        background: currentColor;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 17h2l-2-6H5l-2 6h2'/%3E%3Cpath d='M7 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM17 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z'/%3E%3Cpath d='M5 11l1.5-4h11L19 11'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 17h2l-2-6H5l-2 6h2'/%3E%3Cpath d='M7 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM17 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z'/%3E%3Cpath d='M5 11l1.5-4h11L19 11'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .mobile-menu-button,
+    .sidebar-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border: 0;
+        border-radius: 8px;
+        color: #ffffff;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    .mobile-menu-button span,
+    .mobile-menu-button::before,
+    .mobile-menu-button::after {
+        content: "";
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 999px;
+        background: currentColor;
+    }
+
+    .mobile-menu-button {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .mobile-avatar {
+        justify-self: end;
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+        font-size: 16px;
+    }
+
+    .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 110;
+        display: flex;
+        width: min(82vw, 310px);
+        min-width: 0;
+        height: 100dvh;
+        padding: 28px 22px 26px;
+        transform: translateX(-105%);
+        transition: transform .22s ease;
+        box-shadow: 24px 0 50px rgba(0, 24, 53, 0.28);
+    }
+
+    body.sidebar-open .sidebar {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: block;
+        border: 0;
+        background: rgba(2, 14, 30, .58);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .22s ease;
+    }
+
+    body.sidebar-open .sidebar-overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    body.sidebar-open {
+        overflow: hidden;
+    }
+
+    .sidebar-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .sidebar-brand {
+        padding-right: 42px;
+    }
+
+    .main-content,
+    .admin-content {
+        padding: 34px 22px 58px;
+    }
+
+    .page-title {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 26px;
+    }
+
+    .page-title h1 {
+        font-size: 30px;
+    }
+
+    .page-title p {
+        font-size: 16px;
+    }
+
+    .page-title .search-control,
+    .search-control {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    .dashboard-row {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-summary,
+    .dashboard-card.center,
+    .payment-card {
+        min-height: auto;
+    }
+
+    .quick-link {
+        min-height: 78px;
+        padding: 14px 18px;
+        gap: 14px;
+    }
+
+    .quick-link > strong:last-child {
+        font-size: 22px;
+    }
+
+    .car-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .car-card {
+        min-height: auto;
+    }
+
+    .car-card h3 {
+        min-height: auto;
+    }
+
+    .car-image {
+        height: clamp(220px, 56vw, 320px);
+        flex-basis: clamp(220px, 56vw, 320px);
+    }
+
+    .history-toolbar {
+        grid-template-columns: minmax(0, 1fr) 54px;
+        gap: 10px;
+    }
+
+    .filter-button {
+        width: 54px;
+        min-width: 54px;
+        padding: 0;
+        font-size: 0;
+    }
+
+    .filter-button .filter-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .history-table-card {
+        overflow-x: auto;
+    }
+
+    .history-table-card .history-table,
+    .history-table-card table,
+    .history-footer {
+        min-width: 720px;
+    }
+
+    .settings-layout,
+    .admin-settings-layout,
+    .contact-grid,
+    .dashboard-grid,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-upload {
+        align-items: center;
+    }
+
+    .admin-profile-list {
+        grid-template-columns: 1fr;
+        gap: 6px 0;
+    }
+
+    .admin-profile-list dd {
+        margin-bottom: 12px;
+        text-align: left;
+    }
+
+    .danger-card {
+        max-width: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .main-content,
+    .admin-content {
+        padding: 28px 16px 48px;
+    }
+
+    .mobile-brand {
+        font-size: 18px;
+    }
+
+    .page-title h1 {
+        font-size: 27px;
+    }
+
+    .dashboard-card,
+    .booking-summary,
+    .settings-card,
+    .danger-card,
+    .contact-card,
+    .detail-card,
+    .form-card {
+        padding: 22px;
+    }
+
+    .booking-summary .count-box {
+        width: 54px;
+        height: 54px;
+        font-size: 22px;
+    }
+
+    .booking-summary h2 {
+        margin-right: 68px;
+    }
+
+    .profile-upload {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profile-photo {
+        width: 82px;
+        height: 82px;
+        flex-basis: 82px;
+        font-size: 34px;
+    }
+
+    .form-row,
+    .settings-form .form-row,
+    .spec-grid,
+    .payment-method {
+        grid-template-columns: 1fr;
+    }
+
+    .history-toolbar {
+        grid-template-columns: 1fr 48px;
+    }
+
+    .history-table-card .history-table,
+    .history-table-card table,
+    .history-footer {
+        min-width: 650px;
+    }
+}
+
+.payment-card h3 {
+    margin-bottom: 10px;
+}
+
+/* Booking approval flow, symmetric status badges, and admin history polish. */
+.status-badge,
+.payment-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 28px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    line-height: 1;
+    font-weight: 800;
+    font-size: 12px;
+    white-space: nowrap;
+    text-transform: none;
+}
+
+.payment-badge {
+    margin-top: 6px;
+}
+
+.status-badge-icon,
+.status-badge svg,
+.payment-badge svg,
+.status-badge i,
+.payment-badge i {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.status-done,
+.payment-paid {
+    color: #087c6c;
+    background: #5cebd4;
+}
+
+.status-pending,
+.payment-unpaid {
+    color: #52627c;
+    background: #dbe8ff;
+}
+
+.status-cancelled,
+.payment-cancelled {
+    color: #b91621;
+    background: #ffd9d9;
+}
+
+.status-badge,
+.payment-badge {
+    min-width: 0;
+    line-height: 1;
+}
+
+.history-page .status-badge,
+.history-page .payment-badge {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    line-height: 1;
+    text-align: center;
+}
+

@@ -1,0 +1,128 @@
+﻿/* home.css - style halaman beranda/index.jsp */
+
+.hero {
+    min-height: 820px;
+    display: grid;
+    place-items: center;
+    padding: 120px 24px 110px;
+    color: #ffffff;
+    text-align: center;
+    background:
+        linear-gradient(180deg, rgba(0, 24, 53, 0.3), rgba(0, 24, 53, 0.92)),
+        url("../img/hero-car.png") center 40% / cover no-repeat,
+        var(--navy);
+}
+
+.hero-left,
+.hero-copy {
+    width: min(760px, 100%);
+    margin: 0 auto;
+}
+
+.hero h1 {
+    margin-bottom: 30px;
+    color: #ffffff;
+    font-size: clamp(46px, 5.7vw, 70px);
+    line-height: 1.12;
+    letter-spacing: 0;
+}
+
+.hero p {
+    width: min(690px, 100%);
+    margin: 0 auto 48px;
+    color: #dce5f2;
+    font-size: 20px;
+    line-height: 1.48;
+}
+
+.home-section {
+    padding: 66px 32px 88px;
+    background: var(--page);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    width: min(1216px, 100%);
+    margin: 0 auto;
+}
+
+.feature-card {
+    min-height: 255px;
+    padding: 32px;
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 24, 53, 0.04);
+}
+
+.feature-card.wide {
+    grid-column: span 2;
+    color: #ffffff;
+    background: var(--navy);
+}
+
+.feature-card h3 {
+    margin: 26px 0 14px;
+    font-size: 23px;
+}
+
+.feature-card p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.feature-card.wide p {
+    color: #dce5f2;
+}
+
+.feature-icon,
+.metric-icon,
+.sidebar-icon {
+    display: inline-grid;
+    width: 49px;
+    height: 49px;
+    border-radius: 8px;
+    place-items: center;
+    color: var(--navy);
+    background: var(--soft);
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.hero {
+    min-height: 820px;
+    padding-top: 88px;
+}
+
+.hero h1 {
+    font-size: clamp(50px, 5.2vw, 72px);
+    font-weight: 800;
+}
+
+.hero p {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.hero-actions {
+    justify-content: center;
+}
+
+.feature-icon {
+    font-size: 0;
+}
+
+.feature-icon::before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background-color: currentColor;
+}
+
+.hero {
+    padding-top: 104px;
+}
+

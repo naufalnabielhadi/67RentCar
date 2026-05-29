@@ -55,8 +55,28 @@ Folder penting:
 - Project ini memakai Tomcat 11, sehingga semua Servlet menggunakan `jakarta.servlet`, bukan `javax.servlet`.
 - Jangan memakai `javax.servlet` di Tomcat 11 karena namespace tersebut tidak kompatibel dengan Jakarta EE yang dipakai Tomcat 11.
 - Project memakai Bootstrap 5 lokal dari `src/main/webapp/assets/bootstrap`.
-- Custom CSS di `src/main/webapp/assets/css/style.css` tetap dipakai agar tampilan mengikuti identitas dan desain 67 RENT CAR, bukan template Bootstrap polos.
+- Custom CSS di `src/main/webapp/assets/css/main.css` tetap dipakai agar tampilan mengikuti identitas dan desain 67 RENT CAR, bukan template Bootstrap polos.
 - Bootstrap dipakai seperlunya untuk layout, form, table, navbar, card, badge, dan modal.
+
+## Pembagian CSS
+
+Custom CSS dipisah per area agar conflict Git antar anggota lebih kecil:
+
+- Audrey mengerjakan `auth.css`.
+- Alyaa mengerjakan `mobil.css`.
+- Naufal mengerjakan `booking.css`.
+- Sigit mengerjakan `payment.css`.
+- Anggelina mengerjakan `history.css`.
+- Indal mengerjakan `admin.css`.
+- `base.css`, `layout.css`, `components.css`, dan `main.css` adalah file bersama dan sebaiknya tidak diedit sembarangan.
+
+File entry point CSS adalah:
+
+```text
+src/main/webapp/assets/css/main.css
+```
+
+JSP cukup memanggil `main.css`; file tersebut akan meng-import CSS lain.
 
 ## Cara Import Database
 
@@ -239,8 +259,16 @@ Folder dan file hasil build tidak perlu masuk repository. File tersebut sudah di
 target/
 *.class
 *.war
+*.jar
+
 .DS_Store
+Thumbs.db
+
 .vscode/
 .idea/
 nbproject/private/
+
+*.log
+*.iml
+.env
 ```

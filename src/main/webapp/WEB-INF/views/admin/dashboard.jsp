@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/views/layout/header.jsp" %>
+<jsp:useBean id="now" class="java.util.Date" />
 
 <main class="admin-layout">
     <%@ include file="/WEB-INF/views/layout/sidebar-admin.jsp" %>
@@ -8,7 +9,7 @@
                 <h1>Ringkasan Operasional</h1>
                 <p>Pantau performa armada dan transaksi hari ini secara real-time.</p>
             </div>
-            <span class="btn-secondary">24 Oktober 2024</span>
+            <span class="btn-secondary"><fmt:formatDate value="${now}" pattern="dd MMMM yyyy" /></span>
         </div>
 
         <c:if test="${not empty error}">

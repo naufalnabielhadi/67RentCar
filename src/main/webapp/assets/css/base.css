@@ -1,0 +1,202 @@
+﻿/* base.css - reset, font, variable warna, background, dan utility global */
+
+:root {
+    --navy: #001835;
+    --navy-2: #06264f;
+    --mint: #5cebd4;
+    --mint-dark: #087c6c;
+    --page: #f5f7fc;
+    --panel: #ffffff;
+    --soft: #edf3ff;
+    --line: #cfd6e4;
+    --line-soft: #e7ebf3;
+    --text: #071d3a;
+    --muted: #586273;
+    --danger: #c91924;
+    --warning: #d88400;
+    --shadow: 0 14px 34px rgba(0, 24, 53, 0.09);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--page);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+.section-title {
+    margin-bottom: 34px;
+    text-align: center;
+}
+
+.section-title h2 {
+    margin-bottom: 10px;
+    color: var(--text);
+    font-size: 34px;
+}
+
+.center {
+    text-align: center;
+}
+
+.muted,
+.form-note,
+.meta {
+    color: var(--muted);
+}
+
+.form-note {
+    margin: 48px 0 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--line-soft);
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.dashboard-row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(270px, 0.95fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.date-box {
+    display: grid;
+    gap: 12px;
+    margin: 26px 0 22px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #f8faff;
+}
+
+.detail-list {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(140px, 1fr);
+    gap: 12px;
+    margin: 22px 0;
+}
+
+.detail-list dt {
+    color: var(--muted);
+}
+
+th,
+td {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line-soft);
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    color: #464b55;
+    background: #e9f0ff;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.inline-form {
+    display: inline-flex;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+}
+
+.settings-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 616px) minmax(260px, 296px);
+    gap: 24px;
+    align-items: start;
+}
+
+.settings-divider {
+    height: 1px;
+    margin: 18px 0 24px;
+    background: var(--line);
+}
+
+.settings-form {
+    display: grid;
+    gap: 18px;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 20px;
+    height: 20px;
+    color: #6c7480;
+    transform: translateY(-50%);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.filter-icon {
+    width: 18px;
+    height: 18px;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18M7 12h10M10 18h4'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18M7 12h10M10 18h4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.status-muted {
+    color: #526783;
+    background: #e8eef8;
+}
+
+/* UI v6: consistent user/admin navigation and global responsive layout. */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.dashboard-shortcuts {
+    display: grid;
+    gap: 12px;
+}
+
+.status-help {
+    margin-top: 8px;
+    font-size: 13px;
+}
+

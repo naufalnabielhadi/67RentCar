@@ -1,0 +1,334 @@
+﻿/* mobil.css - style katalog dan detail mobil */
+
+.car-grid,
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+    gap: 24px;
+    align-items: start;
+}
+
+.car-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.car-card-body {
+    padding: 24px;
+}
+
+.car-image,
+.mobil-image {
+    width: 100%;
+    height: 274px;
+    object-fit: cover;
+    background: var(--soft);
+}
+
+.car-card h3 {
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 26px;
+    line-height: 1.12;
+}
+
+.car-card .price {
+    margin: 26px 0;
+    color: var(--text);
+    font-size: 27px;
+    font-weight: 900;
+}
+
+.price small {
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.car-card .badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.detail-image {
+    width: 100%;
+    height: 524px;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--soft);
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+}
+
+.spec-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    min-height: 64px;
+    padding: 14px;
+    border: 1px solid #dfe7f5;
+    border-radius: 8px;
+    background: #f7f9ff;
+}
+
+.spec-item span {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.car-card {
+    min-width: 0;
+}
+
+.car-image {
+    height: 274px;
+    object-fit: contain;
+    padding: 22px;
+}
+
+.car-card {
+    overflow: hidden;
+}
+
+.car-image,
+.detail-image {
+    background: #eaf2ff;
+}
+
+.car-image {
+    height: 282px;
+    padding: 0;
+    object-fit: cover;
+}
+
+.detail-image {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.detail-layout .detail-image {
+    height: 520px;
+}
+
+.detail-layout > div:first-child {
+    min-width: 0;
+}
+
+.detail-layout .actions {
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.detail-layout .detail-card {
+    min-width: 0;
+}
+
+.detail-layout .detail-card h1 {
+    overflow-wrap: anywhere;
+}
+
+.detail-layout .form-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.car-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    overflow: visible;
+}
+
+.car-card {
+    display: flex;
+    min-width: 0;
+    min-height: 590px;
+    flex-direction: column;
+}
+
+.car-image {
+    height: 282px;
+    flex: 0 0 282px;
+    padding: 0;
+    object-fit: cover;
+}
+
+.car-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 26px;
+}
+
+.car-card h3 {
+    min-height: 60px;
+    overflow-wrap: anywhere;
+}
+
+.car-card .price {
+    margin: 22px 0 24px;
+    white-space: normal;
+}
+
+.car-card .form-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.car-card .btn-primary,
+.car-card .btn-secondary {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px;
+}
+
+/* Final navbar, table, catalog-search, and resource-icon corrections. */
+.landing-navbar .nav-link {
+    min-height: 46px;
+    line-height: 1;
+    padding-top: 1px;
+}
+
+.catalog-search {
+    width: min(100%, 420px);
+}
+
+.catalog-search .input-group-text {
+    min-width: 54px;
+    justify-content: center;
+    background: #ffffff;
+    border-color: var(--line);
+}
+
+.catalog-search .form-control {
+    min-height: 54px;
+    border-color: var(--line);
+    border-left: 0;
+}
+
+.catalog-search .form-control:focus {
+    box-shadow: none;
+    border-color: var(--line);
+}
+
+.catalog-search:focus-within .input-group-text,
+.catalog-search:focus-within .form-control {
+    border-color: var(--navy);
+}
+
+.catalog-toolbar {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 22px;
+}
+
+.catalog-toolbar .catalog-search {
+    width: min(100%, 520px);
+}
+
+.catalog-toolbar .input-group-text,
+.catalog-toolbar .form-control {
+    min-height: 48px;
+}
+
+.catalog-toolbar .input-group-text {
+    position: relative;
+    padding: 0;
+}
+
+.catalog-toolbar .search-icon {
+    position: static;
+    width: 18px;
+    height: 18px;
+    transform: none;
+}
+
+.catalog-search-button {
+    border: 1px solid var(--line);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.catalog-search-button:hover,
+.catalog-search-button:focus {
+    color: #ffffff;
+    background: var(--navy);
+    border-color: var(--navy);
+}
+
+.catalog-search-button:hover .search-icon,
+.catalog-search-button:focus .search-icon {
+    background-color: currentColor;
+}
+
+@media (max-width: 1500px) {
+    .detail-layout {
+        grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+    }
+
+    .detail-layout .detail-image {
+        height: 460px;
+    }
+}
+
+@media (max-width: 1180px) {
+    .detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-layout .detail-image {
+        height: clamp(280px, 48vw, 430px);
+    }
+
+    .detail-layout .actions {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 640px) {
+    .detail-layout {
+        gap: 18px;
+    }
+
+    .detail-layout .detail-image {
+        height: clamp(230px, 62vw, 320px);
+        border-radius: 8px;
+    }
+
+    .detail-layout .detail-card {
+        padding: 22px;
+    }
+
+    .detail-layout .spec-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin: 22px 0;
+    }
+
+    .detail-layout .detail-card h1 {
+        font-size: clamp(34px, 11vw, 48px);
+    }
+
+    .detail-layout .badge-warning {
+        max-width: 100%;
+        white-space: normal;
+    }
+}
+

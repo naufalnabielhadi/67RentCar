@@ -1,0 +1,11 @@
+﻿/* main.css - entry point custom CSS 67 RENT CAR */
+@import url("base.css");
+@import url("layout.css");
+@import url("components.css");
+@import url("home.css");
+@import url("auth.css");
+@import url("mobil.css");
+@import url("booking.css");
+@import url("payment.css");
+@import url("history.css");
+@import url("admin.css");

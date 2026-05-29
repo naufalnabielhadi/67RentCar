@@ -11,6 +11,6 @@
     <meta http-equiv="Expires" content="0">
     <title>67 RENT CAR</title>
     <link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css?v=20260529-admin-check-slim-nav">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css?v=20260529-css-split">
 </head>
 <body>
