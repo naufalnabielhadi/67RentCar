@@ -27,7 +27,6 @@
 </header>
 <button class="sidebar-overlay js-sidebar-close" type="button" aria-label="Tutup menu"></button>
 <aside class="sidebar admin-sidebar">
-    <button class="sidebar-close js-sidebar-close" type="button" aria-label="Tutup menu">x</button>
     <a class="sidebar-brand" href="${pageContext.request.contextPath}/admin/dashboard">67 RENT CAR</a>
 
     <div class="sidebar-profile">

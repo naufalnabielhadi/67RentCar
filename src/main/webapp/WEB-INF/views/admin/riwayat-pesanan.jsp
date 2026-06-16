@@ -11,8 +11,8 @@
             <button class="btn-secondary" type="button">Ekspor CSV</button>
         </div>
 
-        <c:if test="${not empty error}">
-            <div class="alert error">${error}</div>
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert error">${requestScope.error}</div>
         </c:if>
         <c:if test="${not empty sessionScope.error}">
             <div class="alert error">${sessionScope.error}</div>
@@ -73,15 +73,9 @@
                             <td>${item.tanggalSewa}<br><span class="meta">sampai ${item.tanggalKembali}</span></td>
                             <td><fmt:formatNumber value="${item.totalBiaya}" type="currency" currencySymbol="Rp " maxFractionDigits="0"/></td>
                             <td>
-                                <c:set var="adminStatusLabel" value="${item.statusLabel}" />
-                                <c:set var="adminStatusIconClass" value="${item.statusIconClass}" />
-                                <c:if test="${item.statusBooking == 'SELESAI'}">
-                                    <c:set var="adminStatusLabel" value="Selesai" />
-                                    <c:set var="adminStatusIconClass" value="status-icon-check" />
-                                </c:if>
                                 <span class="status-badge ${item.statusBadgeClass}">
-                                    <span class="status-badge-icon ${adminStatusIconClass}"></span>
-                                    ${adminStatusLabel}
+                                    <span class="status-badge-icon ${item.statusIconClass}"></span>
+                                    ${item.statusLabel}
                                 </span>
                             </td>
                             <td>
@@ -131,14 +125,16 @@
                                 <dt>Tanggal Kembali</dt><dd>${item.tanggalKembali}</dd>
                                 <dt>Durasi</dt><dd>${item.durasiHari} Hari</dd>
                                 <dt>Total Harga</dt><dd><fmt:formatNumber value="${item.totalBiaya}" type="currency" currencySymbol="Rp " maxFractionDigits="0"/></dd>
-                                <dt>Status Booking</dt><dd>${item.statusBooking == 'SELESAI' ? 'Selesai' : item.statusLabel}</dd>
+                                <dt>Status Booking</dt><dd>${item.statusLabel}</dd>
                                 <dt>Status Pembayaran</dt><dd>${item.paymentLabel}</dd>
                             </dl>
                         </div>
                         <div class="modal-footer booking-modal-actions">
                             <button type="button" class="btn-secondary" data-bs-dismiss="modal">Tutup</button>
                             <c:if test="${item.statusBooking == 'MENUNGGU_KONFIRMASI'}">
-                                <form method="post" action="${pageContext.request.contextPath}/admin/booking/tolak">
+                                <form method="post" action="${pageContext.request.contextPath}/admin/booking/tolak"
+                                      class="js-confirm"
+                                      data-message="Tolak booking ini? Jika transaksi sudah lunas, status transaksi akan menjadi Dikembalikan.">
                                     <input type="hidden" name="idBooking" value="${item.idBooking}">
                                     <button class="btn-danger" type="submit">Tolak Booking</button>
                                 </form>
@@ -149,7 +145,8 @@
                             </c:if>
                             <c:if test="${item.statusBooking == 'DIKONFIRMASI' || item.statusBooking == 'DIBAYAR'}">
                                 <form method="post" action="${pageContext.request.contextPath}/admin/booking/selesai"
-                                      onsubmit="return confirm('Yakin ingin menyelesaikan booking ini dan mengembalikan mobil menjadi tersedia?');">
+                                      class="js-confirm"
+                                      data-message="Selesaikan booking ini dan ubah status mobil menjadi Sudah Dikembalikan?">
                                     <input type="hidden" name="idBooking" value="${item.idBooking}">
                                     <button class="btn-primary" type="submit">Selesaikan Booking</button>
                                 </form>

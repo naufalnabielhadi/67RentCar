@@ -37,20 +37,18 @@
                 </c:forEach>
                 <strong>${tersedia}</strong>
             </div>
-            <div class="stat-card">
-                <span>Perbaikan</span>
-                <c:set var="perbaikan" value="0" />
-                <c:forEach var="mobil" items="${mobilList}">
-                    <c:if test="${mobil.statusMobil == 'DALAM_PERBAIKAN'}">
-                        <c:set var="perbaikan" value="${perbaikan + 1}" />
-                    </c:if>
-                </c:forEach>
-                <strong>${perbaikan}</strong>
-            </div>
         </section>
 
-        <div class="table-wrap">
-            <table class="table">
+        <div class="table-wrap admin-car-table-card">
+            <table class="table admin-car-table">
+                <colgroup>
+                    <col class="car-col-id">
+                    <col class="car-col-vehicle">
+                    <col class="car-col-plate">
+                    <col class="car-col-price">
+                    <col class="car-col-status">
+                    <col class="car-col-actions">
+                </colgroup>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -91,7 +89,14 @@
                                     <td><fmt:formatNumber value="${mobil.hargaSewaPerHari}" type="currency" currencySymbol="Rp " maxFractionDigits="0"/></td>
                                     <td><span class="badge ${mobil.statusBadgeClass}">${mobil.statusLabel}</span></td>
                                     <td class="table-actions">
-                                        <a class="btn small secondary" href="${pageContext.request.contextPath}/admin/mobil/form?id=${mobil.idMobil}">Edit</a>
+                                        <c:choose>
+                                            <c:when test="${mobil.statusMobil == 'DISEWA'}">
+                                                <button class="btn small secondary" type="button" disabled title="Mobil sedang disewa. Selesaikan booking setelah tanggal kembali tercapai sebelum mengedit.">Edit</button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="btn small secondary" href="${pageContext.request.contextPath}/admin/mobil/form?id=${mobil.idMobil}">Edit</a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <form method="post" action="${pageContext.request.contextPath}/admin/mobil/delete" class="inline-form js-confirm" data-message="Hapus data mobil ini?">
                                             <input type="hidden" name="idMobil" value="${mobil.idMobil}">
                                             <button class="btn small danger" type="submit">Hapus</button>
@@ -105,7 +110,7 @@
             </table>
             <div class="table-footer">
                 <span>Menampilkan ${fn:length(mobilList)} mobil</span>
-                <a class="btn-primary btn-add-content" href="${pageContext.request.contextPath}/admin/mobil/form">Tambah Mobil</a>
+                <a class="btn-success sidebar-add-button btn-add-content" href="${pageContext.request.contextPath}/admin/mobil/form"><span class="icon-plus"></span> Tambah Mobil Baru</a>
             </div>
         </div>
     </section>

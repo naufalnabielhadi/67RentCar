@@ -67,22 +67,16 @@
                                 <td>${item.durasiHari} Hari</td>
                                 <td><fmt:formatNumber value="${item.totalBiaya}" type="currency" currencySymbol="Rp " maxFractionDigits="0"/></td>
                                 <td>
-                                    <c:set var="adminStatusLabel" value="${item.statusLabel}" />
-                                    <c:set var="adminStatusIconClass" value="${item.statusIconClass}" />
-                                    <c:if test="${item.statusBooking == 'DIKONFIRMASI'}">
-                                        <c:set var="adminStatusLabel" value="Selesai" />
-                                        <c:set var="adminStatusIconClass" value="status-icon-check" />
-                                    </c:if>
-                                    <span class="status-badge ${item.statusBadgeClass}">
-                                        <span class="status-badge-icon ${adminStatusIconClass}"></span>
-                                        ${adminStatusLabel}
+                                    <span class="payment-badge ${item.paymentBadgeClass}">
+                                        <span class="status-badge-icon ${item.paymentIconClass}"></span>
+                                        ${item.paymentLabel}
                                     </span>
                                 </td>
                             </tr>
                         </c:forEach>
                         <c:if test="${empty transaksiTerbaru}">
                             <tr>
-                                <td colspan="7">Belum ada transaksi terbayar.</td>
+                                <td colspan="7">Belum ada transaksi.</td>
                             </tr>
                         </c:if>
                     </tbody>

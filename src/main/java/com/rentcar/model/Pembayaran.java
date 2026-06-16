@@ -8,6 +8,7 @@ public class Pembayaran {
     private double jumlah;
     private String status;
     private String metodePembayaran;
+    private String buktiPembayaran;
     private LocalDate tanggalPembayaran;
 
     public Pembayaran() {
@@ -15,11 +16,17 @@ public class Pembayaran {
 
     public Pembayaran(String idPembayaran, String idBooking, double jumlah, String status,
                       String metodePembayaran, LocalDate tanggalPembayaran) {
+        this(idPembayaran, idBooking, jumlah, status, metodePembayaran, null, tanggalPembayaran);
+    }
+
+    public Pembayaran(String idPembayaran, String idBooking, double jumlah, String status,
+                      String metodePembayaran, String buktiPembayaran, LocalDate tanggalPembayaran) {
         this.idPembayaran = idPembayaran;
         this.idBooking = idBooking;
         this.jumlah = jumlah;
         this.status = status;
         this.metodePembayaran = metodePembayaran;
+        this.buktiPembayaran = buktiPembayaran;
         this.tanggalPembayaran = tanggalPembayaran;
     }
 
@@ -66,6 +73,14 @@ public class Pembayaran {
 
     public void setMetodePembayaran(String metodePembayaran) {
         this.metodePembayaran = metodePembayaran;
+    }
+
+    public String getBuktiPembayaran() {
+        return buktiPembayaran;
+    }
+
+    public void setBuktiPembayaran(String buktiPembayaran) {
+        this.buktiPembayaran = buktiPembayaran;
     }
 
     public LocalDate getTanggalPembayaran() {

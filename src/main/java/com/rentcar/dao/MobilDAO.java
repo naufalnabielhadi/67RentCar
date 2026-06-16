@@ -195,7 +195,7 @@ public class MobilDAO {
     }
 
     public boolean updateStatus(String idMobil, boolean status, Connection conn) throws SQLException {
-        String statusMobil = status ? Mobil.STATUS_TERSEDIA : Mobil.STATUS_DISEWA;
+        String statusMobil = status ? Mobil.STATUS_TERSEDIA : Mobil.STATUS_TIDAK_TERSEDIA;
         String sql = "UPDATE mobil SET status = ?, status_mobil = ? WHERE id_mobil = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setBoolean(1, status);
@@ -206,7 +206,7 @@ public class MobilDAO {
     }
 
     public boolean updateStatus(String idMobil, boolean status) throws SQLException {
-        String statusMobil = status ? Mobil.STATUS_TERSEDIA : Mobil.STATUS_DISEWA;
+        String statusMobil = status ? Mobil.STATUS_TERSEDIA : Mobil.STATUS_TIDAK_TERSEDIA;
         String sql = "UPDATE mobil SET status = ?, status_mobil = ? WHERE id_mobil = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -218,11 +218,19 @@ public class MobilDAO {
     }
 
     public boolean releaseFromBooking(String idMobil, Connection conn) throws SQLException {
-        String sql = "UPDATE mobil SET status = TRUE, status_mobil = ? WHERE id_mobil = ? AND status_mobil = ?";
+        String sql = "UPDATE mobil SET status = TRUE, status_mobil = ? WHERE id_mobil = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, Mobil.STATUS_TERSEDIA);
             stmt.setString(2, idMobil);
-            stmt.setString(3, Mobil.STATUS_DISEWA);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean markAsReturned(String idMobil, Connection conn) throws SQLException {
+        String sql = "UPDATE mobil SET status = FALSE, status_mobil = ? WHERE id_mobil = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, Mobil.STATUS_SUDAH_DIKEMBALIKAN);
+            stmt.setString(2, idMobil);
             return stmt.executeUpdate() > 0;
         }
     }
@@ -233,9 +241,10 @@ public class MobilDAO {
             sql = "SELECT COUNT(*) FROM mobil " +
                     "WHERE status_mobil = ? " +
                     "OR ((status_mobil IS NULL OR status_mobil = '') AND status = TRUE)";
-        } else if (Mobil.STATUS_DISEWA.equals(statusMobil)) {
+        } else if (Mobil.STATUS_TIDAK_TERSEDIA.equals(statusMobil)) {
             sql = "SELECT COUNT(*) FROM mobil " +
                     "WHERE status_mobil = ? " +
+                    "OR status_mobil IN ('DISEWA', 'DALAM_PERBAIKAN', 'SUDAH_DIKEMBALIKAN') " +
                     "OR ((status_mobil IS NULL OR status_mobil = '') AND status = FALSE)";
         } else {
             sql = "SELECT COUNT(*) FROM mobil WHERE status_mobil = ?";

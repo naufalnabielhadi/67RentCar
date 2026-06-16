@@ -13,6 +13,9 @@
         <c:if test="${not empty success}">
             <div class="alert success">${success}</div>
         </c:if>
+        <c:if test="${not empty warning}">
+            <div class="alert warning">${warning}</div>
+        </c:if>
         <c:if test="${not empty error}">
             <div class="alert error">${error}</div>
         </c:if>
@@ -98,10 +101,10 @@
 
             <aside class="danger-card">
                 <h2>Zona Berbahaya</h2>
-                <p>Tindakan di bawah ini tidak dapat dibatalkan. Harap berhati-hati.</p>
-                <form method="post" action="${pageContext.request.contextPath}/pelanggan/pengaturan" class="js-confirm" data-message="Nonaktifkan akun ini? Anda tidak bisa login lagi dengan akun ini.">
+                <p>Tindakan di bawah ini akan menghapus akun dan riwayat akun Anda dari database. Akun tidak dapat dihapus saat masih ada booking aktif.</p>
+                <form method="post" action="${pageContext.request.contextPath}/pelanggan/pengaturan" class="js-confirm" data-message="Hapus akun ini secara permanen? Data akun dan riwayat akun akan dihapus dari database.">
                     <input type="hidden" name="action" value="deactivate">
-                    <button class="btn-danger-outline full" type="submit">Nonaktifkan Akun</button>
+                    <button class="btn-danger-outline full" type="submit">Hapus Akun</button>
                 </form>
             </aside>
         </div>

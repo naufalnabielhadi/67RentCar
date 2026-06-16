@@ -62,6 +62,7 @@ CREATE TABLE pembayaran (
     jumlah DECIMAL(12,2) NOT NULL,
     status VARCHAR(30) NOT NULL,
     metode_pembayaran VARCHAR(50) NOT NULL,
+    bukti_pembayaran VARCHAR(255) NULL,
     tanggal_pembayaran DATE NOT NULL,
     CONSTRAINT fk_pembayaran_booking FOREIGN KEY (id_booking) REFERENCES booking(id_booking)
         ON UPDATE CASCADE ON DELETE CASCADE
@@ -69,10 +70,10 @@ CREATE TABLE pembayaran (
 
 INSERT INTO users (id_user, username, email, telepon, password, role, status_akun, foto_profil) VALUES
 ('ADM001', 'Administrator', 'admin@67rentcar.com', '0812-0000-0067', 'admin123', 'ADMIN', 'AKTIF', NULL),
-('PLG001', 'Budi Pelanggan', 'budi@example.com', '0812-3456-7890', 'user123', 'PELANGGAN', 'AKTIF', NULL);
+('PLG001', 'Budi Pelanggan', 'sigitbimantoro@email.com', '0812-3456-7890', 'user123', 'PELANGGAN', 'AKTIF', NULL);
 
 INSERT INTO mobil (id_mobil, merk, model, plat_nomor, harga_sewa_per_hari, status, status_mobil, tahun, transmisi, bahan_bakar, kapasitas, gambar) VALUES
-('MBL001', 'Toyota', 'Alphard', 'B 1234 XYZ', 2500000, TRUE, 'TERSEDIA', 2023, 'Otomatis', 'Bensin', '7 Kursi', 'car-1.png'),
-('MBL002', 'Honda', 'CR-V', 'D 5678 ABC', 800000, FALSE, 'DISEWA', 2022, 'Otomatis', 'Bensin', '5 Kursi', 'car-2.png'),
-('MBL003', 'Mercedes Benz', 'E300', 'B 999 VIP', 3000000, TRUE, 'TERSEDIA', 2023, 'Otomatis', 'Bensin', '5 Kursi', 'car-3.png'),
-('MBL004', 'Mitsubishi', 'Pajero', 'L 4567 DEF', 1200000, TRUE, 'TERSEDIA', 2023, 'Otomatis', 'Diesel', '7 Kursi', 'car-4.png');
+('MBL001', 'Toyota', 'Avanza', 'B 1234 RCA', 350000, TRUE, 'TERSEDIA', 2022, 'Manual', 'Bensin', '7 Kursi', 'toyota-avanza.svg'),
+('MBL002', 'Honda', 'Brio', 'B 5678 RCB', 300000, TRUE, 'TERSEDIA', 2021, 'Otomatis', 'Bensin', '5 Kursi', 'honda-brio.svg'),
+('MBL003', 'Mitsubishi', 'Xpander', 'B 9012 RCC', 450000, TRUE, 'TERSEDIA', 2023, 'Manual', 'Bensin', '7 Kursi', 'mitsubishi-xpander.svg'),
+('MBL004', 'Daihatsu', 'Terios', 'B 3456 RCD', 400000, TRUE, 'TERSEDIA', 2020, 'Otomatis', 'Bensin', '7 Kursi', 'daihatsu-terios.svg');

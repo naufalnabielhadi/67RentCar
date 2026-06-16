@@ -44,35 +44,30 @@
                                 <span>${item.platNomor}</span>
                             </td>
                             <td>
-                                ${item.tanggalSewa}<br>- ${item.tanggalKembali}
-                                <span>${item.durasiHari} Hari</span>
+                                <div class="history-duration">
+                                    <div class="history-duration-range">
+                                        <strong>${item.tanggalSewa}</strong>
+                                        <span>-</span>
+                                        <strong>${item.tanggalKembali}</strong>
+                                    </div>
+                                    <span class="history-duration-days">${item.durasiHari} Hari</span>
+                                </div>
                             </td>
                             <td><fmt:formatNumber value="${item.totalBiaya}" type="currency" currencySymbol="Rp " maxFractionDigits="0"/></td>
                             <td>
-                                <c:set var="userStatusLabel" value="${item.statusLabel}" />
-                                <c:if test="${item.statusBooking == 'DIBAYAR' || item.statusLabel == 'Selesai'}">
-                                    <c:set var="userStatusLabel" value="Dikonfirmasi" />
-                                </c:if>
-                                <c:if test="${item.statusBooking == 'DITOLAK'}">
-                                    <c:set var="userStatusLabel" value="Dibatalkan" />
-                                </c:if>
-                                <span class="status-badge user-history-status ${item.statusBadgeClass}">${userStatusLabel}</span>
-                                <span class="payment-badge ${item.paymentBadgeClass}">${item.paymentLabel}</span>
+                                <span class="status-badge user-history-status ${item.statusBadgeClass}">
+                                    <span class="status-badge-icon ${item.statusIconClass}"></span>
+                                    ${item.statusLabel}
+                                </span>
                             </td>
                             <td>
                                 <c:choose>
                                     <c:when test="${item.statusBooking == 'MENUNGGU_KONFIRMASI'}">
                                         <div class="history-action-stack">
-                                            <c:if test="${item.paymentLabel != 'Lunas'}">
-                                                <a class="btn-primary history-action" href="${pageContext.request.contextPath}/pembayaran?idBooking=${item.idBooking}">Bayar Sekarang</a>
-                                            </c:if>
                                             <button class="btn-danger-outline history-action" type="button" data-bs-toggle="modal" data-bs-target="#cancelModal-${item.idBooking}">
                                                 Batalkan Booking
                                             </button>
                                         </div>
-                                    </c:when>
-                                    <c:when test="${(item.statusBooking == 'DIKONFIRMASI' || item.statusBooking == 'MENUNGGU_PEMBAYARAN') && item.paymentLabel != 'Lunas'}">
-                                        <a class="btn-primary history-action" href="${pageContext.request.contextPath}/pembayaran?idBooking=${item.idBooking}">Bayar Sekarang</a>
                                     </c:when>
                                     <c:otherwise>
                                         <a class="btn-secondary history-action" href="${pageContext.request.contextPath}/mobil/detail?idMobil=${item.idMobil}">Lihat Detail</a>
@@ -120,7 +115,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                             </div>
                             <div class="modal-body">
-                                Booking <strong>${item.idBooking}</strong> untuk ${item.merk} ${item.model} akan dibatalkan dan mobil dikembalikan tersedia.
+                                Booking <strong>${item.idBooking}</strong> untuk ${item.merk} ${item.model} akan dibatalkan. Jika transaksi sudah lunas, status transaksi akan menjadi Dikembalikan.
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn-secondary" data-bs-dismiss="modal">Tutup</button>

@@ -753,9 +753,10 @@
 }
 
 .landing-navbar .nav-link.active {
-    color: #ffffff;
-    background: var(--navy);
-    box-shadow: 0 12px 24px rgba(0, 34, 68, .12);
+    color: #f8fffd !important;
+    background: linear-gradient(135deg, #001835 0%, #06315e 62%, #087c6c 100%);
+    box-shadow: 0 14px 28px rgba(0, 24, 53, .22), inset 0 0 0 1px rgba(255, 255, 255, .16);
+    text-shadow: 0 1px 10px rgba(92, 235, 212, .34);
 }
 
 .landing-navbar .nav-link:not(.active)::after {
@@ -827,7 +828,7 @@
 
     .landing-navbar .nav-link.active {
         padding: 0 14px !important;
-        box-shadow: 0 10px 22px rgba(0, 34, 68, .12);
+        box-shadow: 0 14px 28px rgba(0, 24, 53, .22), inset 0 0 0 1px rgba(255, 255, 255, .16);
     }
 }
 
@@ -903,5 +904,15 @@
     transform: none !important;
     max-width: calc(100vw - 24px);
     z-index: 120;
+}
+
+/* Keep the updated text color while restoring the simpler active navbar background. */
+.landing-navbar .nav-link.active,
+.landing-navbar .nav-link.active:hover,
+.landing-navbar .nav-link.active:focus {
+    color: #ffffff !important;
+    background: var(--navy) !important;
+    box-shadow: 0 10px 24px rgba(0, 34, 68, .14) !important;
+    text-shadow: none !important;
 }
 

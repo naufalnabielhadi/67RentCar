@@ -8,6 +8,7 @@
                 <h1>Selesaikan Pembayaran</h1>
                 <p>Pastikan detail pesanan Anda sudah benar sebelum melanjutkan.</p>
             </div>
+            <a class="btn-secondary" href="${pageContext.request.contextPath}/pelanggan/transaksi">Kembali</a>
         </div>
 
         <c:if test="${not empty error}">
@@ -38,7 +39,12 @@
                             </div>
                             <div class="summary-line">
                                 <span class="muted">Status</span>
-                                <strong>${booking.statusLabel}</strong>
+                                <strong>
+                                    <span class="status-badge ${booking.statusBadgeClass}">
+                                        <span class="status-badge-icon ${booking.statusIconClass}"></span>
+                                        ${booking.statusLabel}
+                                    </span>
+                                </strong>
                             </div>
                             <div class="total-box">
                                 <span>Total Biaya</span>
@@ -48,24 +54,23 @@
                     </article>
 
                     <c:choose>
-                        <c:when test="${booking.paymentLabel != 'Lunas' && (booking.statusBooking == 'MENUNGGU_KONFIRMASI' || booking.statusBooking == 'DIKONFIRMASI' || booking.statusBooking == 'MENUNGGU_PEMBAYARAN')}">
-                            <form method="post" action="${pageContext.request.contextPath}/pembayaran" class="form-card">
+                        <c:when test="${booking.paymentLabel != 'LUNAS' && (booking.statusBooking == 'MENUNGGU_KONFIRMASI' || booking.statusBooking == 'DIKONFIRMASI' || booking.statusBooking == 'MENUNGGU_PEMBAYARAN')}">
+                            <form method="post" action="${pageContext.request.contextPath}/pembayaran" enctype="multipart/form-data" class="form-card payment-form js-payment-form" novalidate>
                                 <input type="hidden" name="idBooking" value="${booking.idBooking}">
                                 <h2>Pilih Metode Pembayaran</h2>
+                                <div class="alert error js-payment-error d-none" role="alert"></div>
 
-                                <p class="form-label">TRANSFER BANK (VIRTUAL ACCOUNT)</p>
-                                <div class="payment-method">
-                                    <label><input type="radio" name="metodePembayaran" value="BCA Virtual Account" required> BCA Virtual Account</label>
-                                    <label><input type="radio" name="metodePembayaran" value="Mandiri Virtual Account"> Mandiri Virtual Account</label>
+                                <p class="form-label">METODE PEMBAYARAN</p>
+                                <div class="payment-method payment-method-three">
+                                    <label><input type="radio" name="metodePembayaran" value="Debit" required> Debit</label>
+                                    <label><input type="radio" name="metodePembayaran" value="Qris"> Qris</label>
+                                    <label><input type="radio" name="metodePembayaran" value="Tunai"> Tunai</label>
                                 </div>
 
-                                <p class="form-label">E-WALLET</p>
-                                <div class="payment-method">
-                                    <label><input type="radio" name="metodePembayaran" value="GoPay"> GoPay</label>
-                                    <label><input type="radio" name="metodePembayaran" value="OVO"> OVO</label>
-                                </div>
+                                <label for="buktiPembayaran">Bukti Pembayaran</label>
+                                <input class="form-control" id="buktiPembayaran" type="file" name="buktiPembayaran" accept=".pdf,.png,.svg,.jpg,.jpeg,application/pdf,image/png,image/svg+xml,image/jpeg" required>
+                                <p class="muted payment-proof-help">PDF, PNG, SVG, JPG, atau JPEG. Maksimal 5MB.</p>
 
-                                <div style="height:160px;border-bottom:1px solid var(--line);"></div>
                                 <button class="btn-primary full" type="submit">Bayar <fmt:formatNumber value="${booking.totalBiaya}" type="currency" currencySymbol="Rp " maxFractionDigits="0"/></button>
                                 <p class="muted" style="margin-top:16px;font-size:13px;">Dengan menekan tombol Bayar, Anda menyetujui Syarat & Ketentuan yang berlaku.</p>
                             </form>
@@ -73,7 +78,7 @@
                         <c:otherwise>
                             <div class="form-card">
                                 <c:choose>
-                                    <c:when test="${booking.statusBooking == 'DIBAYAR' || booking.paymentLabel == 'Lunas'}">
+                                    <c:when test="${booking.statusBooking == 'DIBAYAR' || booking.paymentLabel == 'LUNAS'}">
                                         <div class="alert success">Pembayaran sudah diproses.</div>
                                     </c:when>
                                     <c:otherwise>

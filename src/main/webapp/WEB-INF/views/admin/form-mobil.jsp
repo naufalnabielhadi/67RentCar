@@ -15,7 +15,6 @@
             <c:set var="formStatus" value="${requestScope.statusMobilValue != null ? requestScope.statusMobilValue : mobil.statusMobil}" />
             <span class="eyebrow">Manajemen Armada</span>
             <h1>${empty mobil.idMobil ? 'Tambah Mobil' : 'Edit Mobil'}</h1>
-            <p class="muted">Unggah gambar JPG, JPEG, PNG, atau GIF maksimal 2MB. Jika tidak ada gambar, sistem memakai gambar default.</p>
 
             <c:if test="${not empty error}">
                 <div class="alert error">${error}</div>
@@ -73,23 +72,14 @@
                     </div>
                 </div>
                 <div class="alert error js-car-upload-error d-none" role="alert"></div>
+                <p class="muted upload-help">Unggah gambar JPG, JPEG, PNG, atau GIF maksimal 2MB. Jika tidak ada gambar, sistem memakai gambar default.</p>
 
                 <label>Status</label>
-                <c:choose>
-                    <c:when test="${mobil.statusMobil == 'DISEWA'}">
-                        <input type="hidden" name="statusMobil" value="DISEWA">
-                        <select class="form-select" disabled>
-                            <option selected>Disewa</option>
-                        </select>
-                        <p class="muted status-help">Status Disewa diatur otomatis oleh sistem saat user berhasil booking.</p>
-                    </c:when>
-                    <c:otherwise>
-                        <select class="form-select" name="statusMobil">
-                            <option value="TERSEDIA" ${empty formStatus || formStatus == 'TERSEDIA' ? 'selected' : ''}>Tersedia</option>
-                            <option value="DALAM_PERBAIKAN" ${formStatus == 'DALAM_PERBAIKAN' ? 'selected' : ''}>Dalam Perbaikan</option>
-                        </select>
-                    </c:otherwise>
-                </c:choose>
+                <select class="form-select" name="statusMobil">
+                    <option value="TERSEDIA" ${empty formStatus || formStatus == 'TERSEDIA' ? 'selected' : ''}>Tersedia</option>
+                    <option value="TIDAK_TERSEDIA" ${formStatus == 'TIDAK_TERSEDIA' || formStatus == 'DALAM_PERBAIKAN' ? 'selected' : ''}>Tidak Tersedia</option>
+                </select>
+                <p class="muted status-help">Status Disewa dan Sudah Dikembalikan hanya diatur otomatis oleh proses booking. Setelah mobil sudah dikembalikan, admin bisa mengedit data mobil lalu memilih Tersedia atau Tidak Tersedia.</p>
 
                 <div class="form-actions mt-4 gap-2 d-flex flex-wrap">
                     <button class="btn-primary" type="submit">Simpan</button>

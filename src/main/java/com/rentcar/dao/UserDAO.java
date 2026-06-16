@@ -113,6 +113,41 @@ public class UserDAO {
         }
     }
 
+    public boolean deleteAccountAndHistory(String idUser) throws SQLException {
+        ensureUserColumns();
+        String deletePembayaranSql = "DELETE p FROM pembayaran p JOIN booking b ON p.id_booking = b.id_booking WHERE b.id_user = ?";
+        String deleteDetailSql = "DELETE d FROM detail_booking d JOIN booking b ON d.id_booking = b.id_booking WHERE b.id_user = ?";
+        String deleteBookingSql = "DELETE FROM booking WHERE id_user = ?";
+        String deleteUserSql = "DELETE FROM users WHERE id_user = ? AND role = 'PELANGGAN'";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement deletePembayaranStmt = conn.prepareStatement(deletePembayaranSql);
+                 PreparedStatement deleteDetailStmt = conn.prepareStatement(deleteDetailSql);
+                 PreparedStatement deleteBookingStmt = conn.prepareStatement(deleteBookingSql);
+                 PreparedStatement deleteUserStmt = conn.prepareStatement(deleteUserSql)) {
+                deletePembayaranStmt.setString(1, idUser);
+                deletePembayaranStmt.executeUpdate();
+
+                deleteDetailStmt.setString(1, idUser);
+                deleteDetailStmt.executeUpdate();
+
+                deleteBookingStmt.setString(1, idUser);
+                deleteBookingStmt.executeUpdate();
+
+                deleteUserStmt.setString(1, idUser);
+                boolean deleted = deleteUserStmt.executeUpdate() > 0;
+                conn.commit();
+                return deleted;
+            } catch (SQLException ex) {
+                conn.rollback();
+                throw ex;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
+
     private User mapUser(ResultSet rs) throws SQLException {
         String role = rs.getString("role");
         User user;

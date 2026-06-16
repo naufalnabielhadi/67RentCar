@@ -5,10 +5,6 @@
     <section class="hero-left">
         <h1>Rental Mobil Mudah dan Terpercaya</h1>
         <p>Temukan kendaraan yang tepat untuk setiap perjalanan Anda. Kami menyediakan berbagai pilihan mobil berkualitas dengan layanan prima dan harga transparan.</p>
-        <div class="actions hero-actions">
-            <a class="btn-secondary" href="${pageContext.request.contextPath}/login">Lihat Mobil <span>-></span></a>
-            <a class="btn-secondary hero-login-btn" href="${pageContext.request.contextPath}/login">Login</a>
-        </div>
     </section>
 </main>
 

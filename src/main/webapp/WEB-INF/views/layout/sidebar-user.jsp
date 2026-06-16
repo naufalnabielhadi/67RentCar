@@ -27,7 +27,6 @@
 </header>
 <button class="sidebar-overlay js-sidebar-close" type="button" aria-label="Tutup menu"></button>
 <aside class="sidebar user-sidebar">
-    <button class="sidebar-close js-sidebar-close" type="button" aria-label="Tutup menu">x</button>
     <a class="sidebar-brand" href="${pageContext.request.contextPath}/pelanggan/dashboard">67 RENT CAR</a>
 
     <div class="sidebar-profile">
@@ -56,6 +55,9 @@
         </a>
         <a class="sidebar-link ${currentPath == '/pelanggan/riwayat' || currentPath == '/riwayat' ? 'active' : ''}" href="${pageContext.request.contextPath}/pelanggan/riwayat">
             <span class="sidebar-icon icon-history"></span> Riwayat Pesanan
+        </a>
+        <a class="sidebar-link ${currentPath == '/pelanggan/transaksi' ? 'active' : ''}" href="${pageContext.request.contextPath}/pelanggan/transaksi">
+            <span class="sidebar-icon icon-transaction"></span> Riwayat Transaksi
         </a>
         <a class="sidebar-link ${currentPath == '/pelanggan/kontak' ? 'active' : ''}" href="${pageContext.request.contextPath}/pelanggan/kontak">
             <span class="sidebar-icon icon-headphones"></span> Kontak Admin

@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="actions dashboard-actions">
-                            <a class="btn-primary" href="${pageContext.request.contextPath}/pelanggan/riwayat">Lihat Detail <span>-></span></a>
+                            <a class="btn-primary" href="${pageContext.request.contextPath}/pelanggan/riwayat">Lihat Detail <span>></span></a>
                         </div>
                     </c:when>
                     <c:otherwise>
@@ -61,21 +61,21 @@
             <article class="dashboard-card center payment-card h-100">
                 <h3>Status Pembayaran</h3>
                 <c:choose>
-                    <c:when test="${not empty latestBooking && latestBooking.paymentLabel == 'Lunas'}">
+                    <c:when test="${not empty latestBooking && latestBooking.paymentLabel == 'LUNAS'}">
                         <div class="payment-status-icon payment-safe-icon"></div>
-                        <h2 class="payment-safe">Lunas</h2>
+                        <h2 class="payment-safe">LUNAS</h2>
                         <p class="muted">Pembayaran untuk booking ini sudah diterima.</p>
                         <a class="btn-primary full" href="${pageContext.request.contextPath}/pelanggan/riwayat">Lihat Riwayat</a>
                     </c:when>
                     <c:when test="${not empty latestBooking && latestBooking.statusBooking == 'MENUNGGU_KONFIRMASI'}">
                         <div class="payment-status-icon payment-warning-icon">!</div>
-                        <h2 class="payment-waiting">Menunggu Konfirmasi</h2>
+                        <h2 class="payment-waiting">MENUNGGU KONFIRMASI</h2>
                         <p class="muted">Anda tetap bisa menyelesaikan pembayaran sambil menunggu persetujuan admin.</p>
                         <a class="btn-secondary full" href="${pageContext.request.contextPath}/pembayaran?idBooking=${latestBooking.idBooking}">Bayar Sekarang</a>
                     </c:when>
                     <c:when test="${not empty latestBooking && (latestBooking.statusBooking == 'DIKONFIRMASI' || latestBooking.statusBooking == 'MENUNGGU_PEMBAYARAN')}">
                         <div class="payment-status-icon payment-warning-icon">!</div>
-                        <h2 class="payment-waiting">Menunggu</h2>
+                        <h2 class="payment-waiting">TIDAK LUNAS</h2>
                         <p class="muted">Selesaikan pembayaran untuk mengamankan kendaraan Anda.</p>
                         <a class="btn-secondary full" href="${pageContext.request.contextPath}/pembayaran?idBooking=${latestBooking.idBooking}">Bayar Sekarang</a>
                     </c:when>
@@ -94,12 +94,12 @@
             <a class="quick-link" href="${pageContext.request.contextPath}/mobil">
                 <span class="quick-icon icon-car"></span>
                 <span><strong>Katalog Mobil</strong><br><small>Jelajahi armada kami</small></span>
-                <strong>-></strong>
+                <strong>></strong>
             </a>
             <a class="quick-link light" href="${pageContext.request.contextPath}/pelanggan/riwayat">
                 <span class="quick-icon icon-history"></span>
                 <span><strong>Riwayat Pesanan</strong><br><small>Lihat riwayat sewa</small></span>
-                <strong>-></strong>
+                <strong>></strong>
             </a>
         </div>
     </section>

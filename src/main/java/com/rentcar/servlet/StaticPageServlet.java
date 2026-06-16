@@ -78,8 +78,7 @@ public class StaticPageServlet extends HttpServlet {
         request.setAttribute("transaksiTerbaru", bookingDAO.findTransaksiTerbaru(5));
         request.setAttribute("totalMobil", mobilDAO.findAll().size());
         request.setAttribute("mobilTersedia", mobilDAO.countByStatus(Mobil.STATUS_TERSEDIA));
-        request.setAttribute("mobilPerbaikan", mobilDAO.countByStatus(Mobil.STATUS_DALAM_PERBAIKAN));
-        request.setAttribute("mobilDisewa", mobilDAO.countByStatus(Mobil.STATUS_DISEWA));
+        request.setAttribute("mobilTidakTersedia", mobilDAO.countByStatus(Mobil.STATUS_TIDAK_TERSEDIA));
     }
 
     @Override
@@ -96,15 +95,21 @@ public class StaticPageServlet extends HttpServlet {
         String action = request.getParameter("action");
         try {
             if ("profile".equals(action)) {
-                if (adminSettings) {
+                if (customerSettings && bookingDAO.hasActiveBookingByUser(user.getIdUser())) {
+                    request.setAttribute("error", "Profil tidak dapat diubah saat Anda masih memiliki booking aktif.");
+                } else if (adminSettings) {
                     updateAdminProfileImage(request, user);
                 } else {
                     updateProfile(request, user);
                 }
             } else if ("password".equals(action)) {
-                updatePassword(request, user);
+                if (customerSettings && bookingDAO.hasActiveBookingByUser(user.getIdUser())) {
+                    request.setAttribute("error", "Kata sandi tidak dapat diubah saat Anda masih memiliki booking aktif.");
+                } else {
+                    updatePassword(request, user);
+                }
             } else if (!adminSettings && "deactivate".equals(action)) {
-                deactivateAccount(request, response, user);
+                deleteAccount(request, response, user);
                 return;
             }
         } catch (SQLException | IllegalArgumentException | IllegalStateException ex) {
@@ -141,6 +146,15 @@ public class StaticPageServlet extends HttpServlet {
         }
 
         String fotoProfil = resolveProfileImage(request, user);
+        boolean hasProfileChange = !sameValue(username, user.getUsername())
+                || !sameValue(email, user.getEmail())
+                || !sameValue(telepon, user.getTelepon())
+                || !ValidationUtil.isBlank(fotoProfil);
+        if (!hasProfileChange) {
+            request.setAttribute("warning", "Tidak ada perubahan pada profil.");
+            return;
+        }
+
         if (userDAO.updateProfile(user.getIdUser(), username, email, telepon, fotoProfil)) {
             user.setUsername(username);
             user.setEmail(email);
@@ -152,6 +166,12 @@ public class StaticPageServlet extends HttpServlet {
         } else {
             request.setAttribute("error", "Profil tidak dapat diperbarui.");
         }
+    }
+
+    private boolean sameValue(String submittedValue, String currentValue) {
+        String cleanSubmitted = submittedValue == null ? "" : submittedValue.trim();
+        String cleanCurrent = currentValue == null ? "" : currentValue.trim();
+        return cleanSubmitted.equals(cleanCurrent);
     }
 
     private String resolveProfileImage(HttpServletRequest request, User user) throws IOException, ServletException {
@@ -223,8 +243,12 @@ public class StaticPageServlet extends HttpServlet {
         }
     }
 
-    private void deactivateAccount(HttpServletRequest request, HttpServletResponse response, User user) throws SQLException, IOException {
-        if (userDAO.deactivate(user.getIdUser())) {
+    private void deleteAccount(HttpServletRequest request, HttpServletResponse response, User user) throws SQLException, IOException {
+        if (bookingDAO.hasActiveBookingByUser(user.getIdUser())) {
+            request.setAttribute("error", "Akun tidak dapat dihapus saat masih memiliki booking aktif.");
+            return;
+        }
+        if (userDAO.deleteAccountAndHistory(user.getIdUser())) {
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
@@ -232,7 +256,7 @@ public class StaticPageServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login?success=deactivated");
             return;
         }
-        request.setAttribute("error", "Akun tidak dapat dinonaktifkan.");
+        request.setAttribute("error", "Akun tidak dapat dihapus.");
     }
 
     private boolean requireRole(HttpServletRequest request, HttpServletResponse response, String requiredRole) throws IOException {

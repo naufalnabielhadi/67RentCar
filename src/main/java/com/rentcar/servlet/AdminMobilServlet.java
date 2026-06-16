@@ -39,7 +39,10 @@ public class AdminMobilServlet extends HttpServlet {
     private static final Set<String> ALLOWED_CONTENT_TYPES = Set.of("image/jpeg", "image/png", "image/gif");
     private static final Set<String> ALLOWED_TRANSMISSIONS = Set.of("Manual", "Otomatis");
     private static final Set<String> ALLOWED_FUEL_TYPES = Set.of("Bensin", "Diesel", "Hybrid", "Listrik");
-    private static final Set<String> ALLOWED_ADMIN_STATUSES = Set.of(Mobil.STATUS_TERSEDIA, Mobil.STATUS_DALAM_PERBAIKAN);
+    private static final Set<String> ALLOWED_ADMIN_STATUSES = Set.of(
+            Mobil.STATUS_TERSEDIA,
+            Mobil.STATUS_TIDAK_TERSEDIA
+    );
     private final MobilDAO mobilDAO = new MobilDAO();
 
     @Override
@@ -52,7 +55,12 @@ public class AdminMobilServlet extends HttpServlet {
             if ("/admin/mobil/form".equals(request.getServletPath())) {
                 String idMobil = request.getParameter("id");
                 if (!ValidationUtil.isBlank(idMobil)) {
-                    request.setAttribute("mobil", mobilDAO.findById(idMobil));
+                    Mobil mobil = mobilDAO.findById(idMobil);
+                    if (mobil != null && Mobil.STATUS_DISEWA.equals(mobil.getStatusMobil())) {
+                        forwardListError(request, response, "Mobil sedang disewa dan belum bisa diedit. Selesaikan booking setelah tanggal kembali tercapai terlebih dahulu.");
+                        return;
+                    }
+                    request.setAttribute("mobil", mobil);
                 }
                 request.getRequestDispatcher("/WEB-INF/views/admin/form-mobil.jsp").forward(request, response);
                 return;
@@ -90,6 +98,9 @@ public class AdminMobilServlet extends HttpServlet {
             if (!ValidationUtil.isBlank(mobil.getPlatNomor())
                     && mobilDAO.existsByPlatNomor(mobil.getPlatNomor(), mobil.getIdMobil())) {
                 errors.add("Plat nomor sudah digunakan mobil lain.");
+            }
+            if (existing != null && Mobil.STATUS_DISEWA.equals(existing.getStatusMobil())) {
+                errors.add("Mobil sedang disewa dan belum bisa diedit. Selesaikan booking setelah tanggal kembali tercapai terlebih dahulu.");
             }
 
             mobil.setStatusMobil(resolveAdminStatus(mobil.getIdMobil(), request.getParameter("statusMobil"), existing, errors));
@@ -131,8 +142,8 @@ public class AdminMobilServlet extends HttpServlet {
                 forwardListError(request, response, "Mobil tidak ditemukan atau gagal dihapus.");
                 return;
             }
-            if (Mobil.STATUS_DISEWA.equals(mobil.getStatusMobil()) || mobilDAO.hasBookingHistory(idMobil)) {
-                forwardListError(request, response, "Mobil tidak dapat dihapus karena sedang disewa atau memiliki riwayat booking.");
+            if (!Mobil.STATUS_TERSEDIA.equals(mobil.getStatusMobil()) || mobilDAO.hasBookingHistory(idMobil)) {
+                forwardListError(request, response, "Mobil tidak dapat dihapus karena sedang tidak tersedia atau memiliki riwayat booking.");
                 return;
             }
             if (!mobilDAO.delete(idMobil)) {
@@ -141,7 +152,7 @@ public class AdminMobilServlet extends HttpServlet {
             }
             response.sendRedirect(request.getContextPath() + "/admin/mobil");
         } catch (SQLException ex) {
-            forwardListError(request, response, "Mobil tidak dapat dihapus karena sedang disewa atau memiliki riwayat booking.");
+            forwardListError(request, response, "Mobil tidak dapat dihapus karena sedang tidak tersedia atau memiliki riwayat booking.");
         }
     }
 
@@ -193,19 +204,8 @@ public class AdminMobilServlet extends HttpServlet {
 
     private String resolveAdminStatus(String idMobil, String requestedStatus, Mobil existing, List<String> errors) {
         String normalizedStatus = normalizeStatus(requestedStatus);
-        if (existing != null && Mobil.STATUS_DISEWA.equals(existing.getStatusMobil())) {
-            return Mobil.STATUS_DISEWA;
-        }
-        if (Mobil.STATUS_DISEWA.equals(normalizedStatus)) {
-            errors.add("Status Disewa hanya diatur otomatis saat user booking.");
-            return Mobil.STATUS_TERSEDIA;
-        }
         if (!ALLOWED_ADMIN_STATUSES.contains(normalizedStatus)) {
-            errors.add("Status mobil tidak valid.");
-            return Mobil.STATUS_TERSEDIA;
-        }
-        if (ValidationUtil.isBlank(idMobil) && Mobil.STATUS_DISEWA.equals(normalizedStatus)) {
-            errors.add("Admin tidak dapat membuat mobil baru langsung berstatus Disewa.");
+            errors.add("Status mobil hanya boleh diubah manual menjadi Tersedia atau Tidak Tersedia. Status Disewa dan Sudah Dikembalikan hanya diatur oleh proses booking.");
             return Mobil.STATUS_TERSEDIA;
         }
         return normalizedStatus;

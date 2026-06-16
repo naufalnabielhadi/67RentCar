@@ -517,3 +517,39 @@
     text-align: center;
 }
 
+/* Payment page alignment and simplified method controls. */
+.payment-summary .summary-line {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.42fr) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+    margin-bottom: 22px;
+}
+
+.payment-summary .summary-line strong {
+    justify-self: start;
+    text-align: left;
+    line-height: 1.45;
+}
+
+.payment-method-three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.payment-form .form-control[type="file"] {
+    padding: 13px 16px;
+    background: #ffffff;
+}
+
+.payment-proof-help {
+    margin: 8px 0 28px;
+    font-size: 13px;
+}
+
+@media (max-width: 640px) {
+    .payment-summary .summary-line,
+    .payment-method-three {
+        grid-template-columns: 1fr;
+    }
+}
+

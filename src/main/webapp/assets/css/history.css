@@ -393,6 +393,66 @@
     justify-items: stretch;
 }
 
+.history-duration {
+    display: grid;
+    gap: 5px;
+    line-height: 1.35;
+}
+
+.history-duration-range {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+.history-duration-range strong {
+    font-weight: 600;
+}
+
+.history-duration-days {
+    display: inline-flex !important;
+    width: fit-content;
+    min-height: 26px;
+    margin-top: 4px !important;
+    padding: 0 11px;
+    align-items: center;
+    border-radius: 999px;
+    color: #083055 !important;
+    background: #e6f0ff;
+    font-size: 12px !important;
+    font-weight: 800;
+}
+
+.history-action-stack,
+.history-table td .history-action {
+    width: 144px;
+}
+
+.history-action {
+    display: inline-flex;
+    min-width: 144px;
+    min-height: 48px;
+    padding: 0 16px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1.15;
+    box-shadow: 0 12px 22px rgba(0, 24, 53, .1);
+}
+
+.history-action.btn-primary {
+    background: linear-gradient(135deg, #001835, #06315e);
+}
+
+.history-action.btn-danger-outline {
+    color: #ffffff;
+    border: 1.5px solid var(--danger);
+    background: linear-gradient(135deg, #c91924, #a90f18);
+}
+
 .table,
 .admin-table,
 .history-table,
@@ -457,5 +517,21 @@
 
 .history-page .user-history-status {
     min-width: 0;
+}
+
+.history-table td .status-badge,
+.history-table td .payment-badge {
+    display: inline-flex;
+}
+
+.history-table td .status-badge span,
+.history-table td .payment-badge span {
+    display: inline-block;
+    margin-top: 0;
+    color: currentColor;
+}
+
+.history-table td .status-badge-icon {
+    flex: 0 0 14px;
 }
 

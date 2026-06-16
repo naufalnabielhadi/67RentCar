@@ -2,8 +2,10 @@ package com.rentcar.model;
 
 public class Mobil {
     public static final String STATUS_TERSEDIA = "TERSEDIA";
-    public static final String STATUS_DALAM_PERBAIKAN = "DALAM_PERBAIKAN";
+    public static final String STATUS_TIDAK_TERSEDIA = "TIDAK_TERSEDIA";
+    public static final String STATUS_DALAM_PERBAIKAN = STATUS_TIDAK_TERSEDIA;
     public static final String STATUS_DISEWA = "DISEWA";
+    public static final String STATUS_SUDAH_DIKEMBALIKAN = "SUDAH_DIKEMBALIKAN";
 
     private String idMobil;
     private String merk;
@@ -97,7 +99,7 @@ public class Mobil {
 
     public void setStatus(boolean status) {
         this.status = status;
-        this.statusMobil = status ? STATUS_TERSEDIA : STATUS_DISEWA;
+        this.statusMobil = status ? STATUS_TERSEDIA : STATUS_TIDAK_TERSEDIA;
     }
 
     public String getStatusMobil() {
@@ -106,7 +108,12 @@ public class Mobil {
 
     public void setStatusMobil(String statusMobil) {
         String normalizedStatus = statusMobil == null ? "" : statusMobil.trim().toUpperCase();
-        if (!STATUS_DALAM_PERBAIKAN.equals(normalizedStatus) && !STATUS_DISEWA.equals(normalizedStatus)) {
+        if ("DALAM_PERBAIKAN".equals(normalizedStatus)) {
+            normalizedStatus = STATUS_TIDAK_TERSEDIA;
+        }
+        if (!STATUS_TIDAK_TERSEDIA.equals(normalizedStatus)
+                && !STATUS_DISEWA.equals(normalizedStatus)
+                && !STATUS_SUDAH_DIKEMBALIKAN.equals(normalizedStatus)) {
             normalizedStatus = STATUS_TERSEDIA;
         }
         this.statusMobil = normalizedStatus;
@@ -114,20 +121,26 @@ public class Mobil {
     }
 
     public String getStatusLabel() {
-        if (STATUS_DALAM_PERBAIKAN.equals(statusMobil)) {
-            return "Dalam Perbaikan";
-        }
         if (STATUS_DISEWA.equals(statusMobil)) {
             return "Disewa";
+        }
+        if (STATUS_SUDAH_DIKEMBALIKAN.equals(statusMobil)) {
+            return "Sudah Dikembalikan";
+        }
+        if (STATUS_TIDAK_TERSEDIA.equals(statusMobil)) {
+            return "Tidak Tersedia";
         }
         return "Tersedia";
     }
 
     public String getStatusBadgeClass() {
-        if (STATUS_DALAM_PERBAIKAN.equals(statusMobil)) {
+        if (STATUS_DISEWA.equals(statusMobil)) {
             return "warning";
         }
-        if (STATUS_DISEWA.equals(statusMobil)) {
+        if (STATUS_SUDAH_DIKEMBALIKAN.equals(statusMobil)) {
+            return "returned";
+        }
+        if (STATUS_TIDAK_TERSEDIA.equals(statusMobil)) {
             return "muted";
         }
         return "ok";

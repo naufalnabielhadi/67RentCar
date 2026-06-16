@@ -16,7 +16,8 @@
             <div class="alert error">${error}</div>
         </c:if>
 
-        <form class="auth-form" method="post" action="${pageContext.request.contextPath}/login">
+        <form class="auth-form js-auth-form" method="post" action="${pageContext.request.contextPath}/login" novalidate>
+            <div class="alert error js-auth-error d-none" role="alert"></div>
             <label class="auth-label" for="login-email">Email Address</label>
             <div class="input-shell input-email">
                 <input class="form-control" id="login-email" type="email" name="email" placeholder="nama@email.com" required>
@@ -24,13 +25,12 @@
 
             <div class="label-row">
                 <label class="auth-label" for="login-password">Password</label>
-                <a href="#" aria-label="Fitur lupa password belum tersedia">Lupa Password?</a>
             </div>
             <div class="input-shell input-lock input-hidden">
                 <input class="form-control" id="login-password" type="password" name="password" placeholder="Masukkan password" required>
             </div>
 
-            <button class="btn-primary full auth-submit" type="submit">Masuk <span aria-hidden="true">-></span></button>
+            <button class="btn-primary full auth-submit" type="submit">Masuk <span aria-hidden="true">></span></button>
         </form>
 
         <p class="form-note">Belum memiliki akun? <a href="${pageContext.request.contextPath}/register">Daftar sekarang</a></p>

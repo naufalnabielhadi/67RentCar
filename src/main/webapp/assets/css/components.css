@@ -767,29 +767,40 @@ textarea {
     background: currentColor;
 }
 
+.status-icon-paid,
 .status-icon-check {
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+    -webkit-mask: url("../reference/svg/16-transaction-paid-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/16-transaction-paid-status.svg") center / contain no-repeat;
 }
 
 .status-icon-car {
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 17h2l-2-6H5l-2 6h2'/%3E%3Cpath d='M7 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM17 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z'/%3E%3Cpath d='M5 11l1.5-4h11L19 11'/%3E%3C/svg%3E") center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 17h2l-2-6H5l-2 6h2'/%3E%3Cpath d='M7 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM17 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z'/%3E%3Cpath d='M5 11l1.5-4h11L19 11'/%3E%3C/svg%3E") center / contain no-repeat;
+    -webkit-mask: url("../reference/svg/17-transaction-confirmed-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/17-transaction-confirmed-status.svg") center / contain no-repeat;
 }
 
 .status-icon-clock {
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") center / contain no-repeat;
+    -webkit-mask: url("../reference/svg/18-transaction-waiting-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/18-transaction-waiting-status.svg") center / contain no-repeat;
 }
 
 .status-icon-x {
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center / contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center / contain no-repeat;
+    -webkit-mask: url("../reference/svg/19-transaction-unpaid-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/19-transaction-unpaid-status.svg") center / contain no-repeat;
 }
 
 .status-active {
     color: #087c6c;
     background: #5cebd4;
+}
+
+.alert.warning {
+    color: #725100;
+    background: #fff4cf;
+}
+
+.icon-transaction::before {
+    -webkit-mask: url("../reference/svg/08-pembayaran.svg") center / contain no-repeat;
+    mask: url("../reference/svg/08-pembayaran.svg") center / contain no-repeat;
 }
 
 .btn-icon {

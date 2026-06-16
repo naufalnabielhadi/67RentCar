@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-@WebServlet({"/pelanggan/dashboard", "/riwayat", "/pelanggan/riwayat", "/admin/pesanan"})
+@WebServlet({"/pelanggan/dashboard", "/riwayat", "/pelanggan/riwayat", "/pelanggan/transaksi", "/admin/pesanan"})
 public class RiwayatServlet extends HttpServlet {
     private final BookingDAO bookingDAO = new BookingDAO();
     private final MobilDAO mobilDAO = new MobilDAO();
@@ -44,6 +44,14 @@ public class RiwayatServlet extends HttpServlet {
                 request.setAttribute("riwayatList", bookingDAO.findByUserFiltered(user.getIdUser(), query));
                 request.setAttribute("query", query);
                 request.getRequestDispatcher("/WEB-INF/views/pelanggan/riwayat.jsp").forward(request, response);
+                return;
+            }
+
+            if ("/pelanggan/transaksi".equals(request.getServletPath())) {
+                String query = request.getParameter("q");
+                request.setAttribute("riwayatList", bookingDAO.findByUserFiltered(user.getIdUser(), query));
+                request.setAttribute("query", query);
+                request.getRequestDispatcher("/WEB-INF/views/pelanggan/transaksi.jsp").forward(request, response);
                 return;
             }
 

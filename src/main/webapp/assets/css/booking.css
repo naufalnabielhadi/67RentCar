@@ -204,3 +204,22 @@
     }
 }
 
+.booking-summary .booking-summary-head {
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+}
+
+.booking-summary .booking-summary-head .badge-success {
+    flex: 0 0 auto;
+}
+
+.booking-summary .booking-summary-head .count-box {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 999px;
+    font-size: 15px;
+    box-shadow: none;
+}
+

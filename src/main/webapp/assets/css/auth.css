@@ -10,8 +10,9 @@
     place-items: center;
     padding: 52px 20px;
     background:
-        linear-gradient(180deg, rgba(0, 32, 69, 0.7), rgba(26, 54, 93, 0.94)),
-        url("../img/login-car.png") center / cover no-repeat;
+        linear-gradient(90deg, rgba(0, 12, 28, .86), rgba(0, 24, 53, .54), rgba(0, 12, 28, .86)),
+        linear-gradient(180deg, rgba(0, 32, 69, .42), rgba(0, 24, 53, .9)),
+        url("../img/login-car.png") center 50% / cover no-repeat;
 }
 
 .auth-register {
@@ -28,8 +29,9 @@
     justify-content: flex-end;
     color: #ffffff;
     background:
-        linear-gradient(180deg, rgba(0, 24, 53, 0.1), rgba(0, 24, 53, 0.92)),
-        url("../img/register-car.png") center / cover no-repeat;
+        linear-gradient(90deg, rgba(0, 12, 28, .2), rgba(0, 24, 53, .56)),
+        linear-gradient(180deg, rgba(0, 24, 53, .02), rgba(0, 24, 53, .92)),
+        url("../img/register-car.png") center 50% / cover no-repeat;
 }
 
 .auth-left .watermark {
@@ -202,6 +204,10 @@
     pointer-events: none;
 }
 
+.input-hidden::after {
+    display: none;
+}
+
 .input-shell::before {
     left: 14px;
 }
@@ -371,9 +377,11 @@
     width: 420px;
     max-width: calc(100vw - 32px);
     padding: 30px 33px 35px;
+    border: 1px solid rgba(219, 227, 238, .94);
     border-top: 5px solid #dce2eb;
-    border-radius: 8px;
+    border-radius: 12px;
     text-align: center;
+    box-shadow: 0 26px 70px rgba(0, 14, 32, .38), 0 0 0 1px rgba(255, 255, 255, .56);
 }
 
 .auth-login-card .auth-brand {
@@ -914,7 +922,7 @@
 .auth-register.auth-page {
     min-height: 100vh;
     grid-template-columns: minmax(0, 1.12fr) minmax(420px, .88fr);
-    background: #f3f7fc;
+    background: linear-gradient(135deg, #edf3fa, #f8fbff);
 }
 
 .auth-register .auth-left {
@@ -925,18 +933,24 @@
 
 .auth-register .auth-left .watermark {
     margin-bottom: 18px;
-    font-size: clamp(52px, 6vw, 86px);
+    color: rgba(255, 255, 255, .52);
+    font-size: clamp(50px, 5.7vw, 80px);
+    letter-spacing: 0;
+    text-shadow: 0 18px 34px rgba(0, 0, 0, .22);
 }
 
 .auth-register .auth-left h2 {
     margin-bottom: 18px;
     max-width: 680px;
-    font-size: clamp(36px, 4.2vw, 56px);
+    font-size: clamp(34px, 3.9vw, 52px);
+    text-shadow: 0 18px 38px rgba(0, 0, 0, .28);
 }
 
 .auth-register .auth-left p {
     max-width: 620px;
     margin-bottom: 0;
+    color: #f2f7ff;
+    text-shadow: 0 12px 26px rgba(0, 0, 0, .24);
 }
 
 .auth-register .auth-right {
@@ -948,10 +962,11 @@
 .auth-register-card.auth-card {
     width: min(440px, 100%);
     padding: 34px 32px 32px;
-    border: 1px solid #dfe7f2;
-    border-radius: 14px;
+    border: 1px solid rgba(219, 227, 238, .94);
+    border-top: 5px solid #dce2eb;
+    border-radius: 12px;
     background: #ffffff;
-    box-shadow: 0 20px 46px rgba(0, 24, 53, .12);
+    box-shadow: 0 26px 70px rgba(0, 24, 53, .16), 0 0 0 1px rgba(255, 255, 255, .74);
 }
 
 .auth-register-card .auth-brand {
@@ -983,17 +998,17 @@
     height: 56px;
     min-height: 56px;
     border: 1px solid #dbe3ee;
-    border-radius: 10px;
-    background: #f3f6fa;
+    border-radius: 8px;
+    background: #f5f7fc;
     font-size: 16px;
 }
 
 .auth-register-card .auth-submit.btn-primary.full,
 .auth-register-card .auth-submit {
-    min-height: 56px;
-    height: 56px;
+    min-height: 48px;
+    height: 48px;
     margin-top: 28px;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .auth-register-card .form-note {
@@ -1053,5 +1068,15 @@
         padding: 28px 20px 26px;
         border-radius: 12px;
     }
+}
+
+/* Final landing navbar selected state: loaded after earlier auth overrides. */
+.landing-navbar .nav-link.active,
+.landing-navbar .nav-link.active:hover,
+.landing-navbar .nav-link.active:focus {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #001835 0%, #06315e 58%, #087c6c 100%) !important;
+    box-shadow: 0 14px 30px rgba(0, 24, 53, .24), inset 0 0 0 1px rgba(255, 255, 255, .18) !important;
+    text-shadow: 0 1px 10px rgba(92, 235, 212, .34) !important;
 }
 

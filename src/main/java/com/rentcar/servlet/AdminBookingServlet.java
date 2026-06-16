@@ -32,10 +32,10 @@ public class AdminBookingServlet extends HttpServlet {
                 setFlash(session, updated, "Booking berhasil dikonfirmasi.", "Booking tidak ditemukan atau sudah tidak dapat dikonfirmasi.");
             } else if ("/admin/booking/tolak".equals(servletPath)) {
                 updated = bookingDAO.rejectBooking(idBooking);
-                setFlash(session, updated, "Booking berhasil ditolak.", "Booking tidak ditemukan atau sudah tidak dapat ditolak.");
+                setFlash(session, updated, "Booking berhasil ditolak. Status transaksi diperbarui sesuai pembayaran.", "Booking tidak ditemukan atau sudah tidak dapat ditolak.");
             } else if ("/admin/booking/selesai".equals(servletPath)) {
                 updated = bookingDAO.completeBooking(idBooking);
-                setFlash(session, updated, "Booking berhasil diselesaikan.", "Booking tidak ditemukan atau gagal diselesaikan.");
+                setFlash(session, updated, "Booking berhasil diselesaikan. Status mobil menjadi Sudah Dikembalikan.", "Booking tidak ditemukan atau gagal diselesaikan.");
             } else {
                 session.setAttribute("error", "Aksi booking tidak dikenali.");
             }

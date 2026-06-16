@@ -63,6 +63,12 @@ public class AuthServlet extends HttpServlet {
         try {
             User user = userDAO.login(email, password);
             if (user == null) {
+                User existingUser = userDAO.findByEmail(email);
+                if (existingUser != null && "NONAKTIF".equals(existingUser.getStatusAkun())) {
+                    request.setAttribute("error", "Login gagal. Akun ini masih berstatus nonaktif.");
+                    request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
+                    return;
+                }
                 request.setAttribute("error", "Login gagal. Periksa kembali email dan password.");
                 request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
                 return;

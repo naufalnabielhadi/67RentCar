@@ -41,7 +41,6 @@
                     <c:forEach var="mobil" items="${mobilList}">
                         <article class="card car-card">
                             <img class="car-image" src="${pageContext.request.contextPath}/assets/${mobil.gambarPath}" alt="${mobil.merk} ${mobil.model}" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/img/default-car.svg';">
-                            <span class="badge ${mobil.statusBadgeClass}">${mobil.statusLabel}</span>
                             <div class="car-card-body">
                                 <h3>${mobil.merk} ${mobil.model}</h3>
                                 <p class="meta">${mobil.platNomor}</p>

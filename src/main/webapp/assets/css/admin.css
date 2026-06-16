@@ -616,3 +616,314 @@
     width: 100%;
 }
 
+/* Align admin search with the history search control. */
+.admin-search-form .catalog-search.input-group {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.admin-search-form .catalog-search .input-group-text {
+    position: static;
+    display: inline-flex;
+    width: 52px;
+    min-width: 52px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 8px 0 0 8px;
+    background: #ffffff;
+    box-shadow: none;
+}
+
+.admin-search-form .catalog-search .form-control {
+    min-width: 0;
+    height: 44px;
+    min-height: 44px;
+    padding: 0 14px;
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+    background: #ffffff;
+    box-shadow: none;
+}
+
+.admin-search-form .catalog-search .search-icon {
+    position: static;
+    width: 18px;
+    height: 18px;
+    transform: none;
+}
+
+.upload-help {
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+/* Final requested consistency pass. Loaded last from main.css. */
+.landing-navbar .nav-link.active,
+.landing-navbar .nav-link.active:hover,
+.landing-navbar .nav-link.active:focus {
+    color: #ffffff !important;
+    background: var(--navy) !important;
+    border-color: var(--navy) !important;
+    box-shadow: 0 10px 22px rgba(0, 24, 53, .14) !important;
+    text-shadow: none !important;
+}
+
+.dashboard-grid,
+.stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 18px;
+}
+
+.admin-car-stats {
+    grid-template-columns: repeat(2, minmax(190px, 1fr));
+}
+
+.stat-card {
+    min-height: 108px;
+    padding: 22px 24px;
+}
+
+.stat-card span {
+    font-size: 13px;
+    line-height: 1.25;
+}
+
+.stat-card strong,
+.stat-value {
+    margin-top: 10px;
+    font-size: clamp(26px, 3.1vw, 40px);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+}
+
+.admin-table th,
+.admin-table td,
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table-actions {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 164px;
+}
+
+.table-actions .inline-form {
+    flex: 0 0 auto;
+}
+
+.table-actions .btn {
+    white-space: nowrap;
+}
+
+.btn-add-content.sidebar-add-button {
+    width: auto;
+    min-height: 46px;
+    padding: 0 22px;
+}
+
+.icon-transaction::before {
+    -webkit-mask: url("../reference/svg/21-riwayat-transaksi.svg") center / contain no-repeat;
+    mask: url("../reference/svg/21-riwayat-transaksi.svg") center / contain no-repeat;
+}
+
+.status-icon-confirmed,
+.status-icon-car {
+    -webkit-mask: url("../reference/svg/17-transaction-confirmed-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/17-transaction-confirmed-status.svg") center / contain no-repeat;
+}
+
+.status-icon-cancelled {
+    -webkit-mask: url("../reference/svg/23-transaction-cancelled-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/23-transaction-cancelled-status.svg") center / contain no-repeat;
+}
+
+.status-icon-inactive {
+    -webkit-mask: url("../reference/svg/27-transaction-inactive-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/27-transaction-inactive-status.svg") center / contain no-repeat;
+}
+
+.status-icon-rejected {
+    -webkit-mask: url("../reference/svg/24-transaction-rejected-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/24-transaction-rejected-status.svg") center / contain no-repeat;
+}
+
+.status-icon-finished {
+    -webkit-mask: url("../reference/svg/25-transaction-finished-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/25-transaction-finished-status.svg") center / contain no-repeat;
+}
+
+.status-icon-returned {
+    -webkit-mask: url("../reference/svg/26-transaction-returned-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/26-transaction-returned-status.svg") center / contain no-repeat;
+}
+
+.status-icon-waiting,
+.status-icon-clock {
+    -webkit-mask: url("../reference/svg/18-transaction-waiting-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/18-transaction-waiting-status.svg") center / contain no-repeat;
+}
+
+.status-icon-paid {
+    -webkit-mask: url("../reference/svg/16-transaction-paid-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/16-transaction-paid-status.svg") center / contain no-repeat;
+}
+
+.status-icon-unpaid,
+.status-icon-x {
+    -webkit-mask: url("../reference/svg/19-transaction-unpaid-status.svg") center / contain no-repeat;
+    mask: url("../reference/svg/19-transaction-unpaid-status.svg") center / contain no-repeat;
+}
+
+.status-badge,
+.payment-badge {
+    text-transform: uppercase;
+}
+
+.status-finished {
+    color: #087c6c;
+    background: #d8fff8;
+}
+
+.status-cancelled,
+.status-rejected,
+.payment-inactive {
+    color: #8d1820;
+    background: #ffdede;
+}
+
+.payment-returned {
+    color: #075d72;
+    background: #d9f4ff;
+}
+
+.badge.returned {
+    color: #075d72;
+    background: #d9f4ff;
+}
+
+.admin-car-table {
+    width: 100%;
+    min-width: 980px;
+    table-layout: fixed;
+}
+
+.admin-car-table .car-col-id {
+    width: 12%;
+}
+
+.admin-car-table .car-col-vehicle {
+    width: 26%;
+}
+
+.admin-car-table .car-col-plate {
+    width: 16%;
+}
+
+.admin-car-table .car-col-price {
+    width: 16%;
+}
+
+.admin-car-table .car-col-status {
+    width: 14%;
+}
+
+.admin-car-table .car-col-actions {
+    width: 16%;
+}
+
+.admin-car-table th,
+.admin-car-table td {
+    height: 72px;
+    vertical-align: middle;
+}
+
+.admin-car-table .actions {
+    flex-wrap: nowrap;
+    min-width: 0;
+}
+
+.admin-car-table .table-actions {
+    display: flex;
+    height: 72px;
+    min-width: 0;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    white-space: nowrap;
+}
+
+.admin-car-table .table-actions .btn {
+    flex: 0 0 auto;
+}
+
+.admin-car-table td .badge {
+    max-width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 28px;
+    padding: 5px 10px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+.admin-car-table td .badge.returned {
+    font-size: 12px;
+}
+
+@media (max-width: 900px) {
+    .mobile-menu-button {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        color: #ffffff;
+        background: rgba(255, 255, 255, .08);
+    }
+
+    .mobile-menu-button {
+        flex-direction: row;
+        gap: 0;
+    }
+
+    .mobile-menu-button span,
+    .mobile-menu-button::after {
+        display: none !important;
+    }
+
+    .mobile-menu-button::before {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 24px;
+        background: currentColor;
+        -webkit-mask: url("../reference/svg/28-hamburger-menu.svg") center / contain no-repeat;
+        mask: url("../reference/svg/28-hamburger-menu.svg") center / contain no-repeat;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-car-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        min-height: 96px;
+        padding: 18px 20px;
+    }
+
+    .stat-card strong,
+    .stat-value {
+        font-size: clamp(24px, 8vw, 34px);
+    }
+}
+

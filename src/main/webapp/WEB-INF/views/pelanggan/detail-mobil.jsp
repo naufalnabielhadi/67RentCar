@@ -36,7 +36,6 @@
                             <div class="spec-item"><span>Transmisi<br><strong>${mobil.transmisi}</strong></span></div>
                             <div class="spec-item"><span>Bahan Bakar<br><strong>${mobil.bahanBakar}</strong></span></div>
                             <div class="spec-item"><span>Kapasitas<br><strong>${fn:replace(mobil.kapasitas, 'Penumpang', 'Kursi')}</strong></span></div>
-                            <div class="spec-item"><span>Status<br><strong>${mobil.statusLabel}</strong></span></div>
                         </div>
 
                         <p class="muted">Harga Sewa</p>

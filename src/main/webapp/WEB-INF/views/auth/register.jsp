@@ -20,7 +20,7 @@
             <form class="auth-form" method="post" action="${pageContext.request.contextPath}/register">
                 <label class="auth-label" for="register-username">NAMA LENGKAP</label>
                 <div class="input-shell input-user">
-                    <input class="form-control" id="register-username" type="text" name="username" placeholder="John Doe" required>
+                    <input class="form-control" id="register-username" type="text" name="username" placeholder="Sigit Bimantoro" required>
                 </div>
 
                 <label class="auth-label" for="register-email">EMAIL</label>
@@ -33,7 +33,7 @@
                     <input class="form-control" id="register-password" type="password" name="password" placeholder="Masukkan password" required>
                 </div>
 
-                <button class="btn-primary full auth-submit" type="submit">Daftar Sekarang <span aria-hidden="true">-></span></button>
+                <button class="btn-primary full auth-submit" type="submit">Daftar Sekarang <span aria-hidden="true">></span></button>
             </form>
 
             <p class="form-note">Sudah punya akun? <a href="${pageContext.request.contextPath}/login">Masuk sekarang</a></p>

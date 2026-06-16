@@ -33,14 +33,46 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    var pendingConfirmForm = null;
+    var confirmModalEl = document.getElementById("appConfirmModal");
+    var confirmMessageEl = confirmModalEl ? confirmModalEl.querySelector(".app-confirm-message") : null;
+    var confirmSubmitButton = confirmModalEl ? confirmModalEl.querySelector(".js-app-confirm-submit") : null;
+    var confirmModal = confirmModalEl && window.bootstrap ? new bootstrap.Modal(confirmModalEl) : null;
+
     document.querySelectorAll(".js-confirm").forEach(function (form) {
         form.addEventListener("submit", function (event) {
-            var message = form.getAttribute("data-message") || "Lanjutkan aksi ini?";
-            if (!window.confirm(message)) {
-                event.preventDefault();
+            if (form.dataset.confirmed === "true") {
+                delete form.dataset.confirmed;
+                return;
             }
+            event.preventDefault();
+            pendingConfirmForm = form;
+            if (confirmMessageEl) {
+                confirmMessageEl.textContent = form.getAttribute("data-message") || "Lanjutkan aksi ini?";
+            }
+            if (confirmModal) {
+                confirmModal.show();
+                return;
+            }
+            form.dataset.confirmed = "true";
+            form.requestSubmit();
         });
     });
+
+    if (confirmSubmitButton) {
+        confirmSubmitButton.addEventListener("click", function () {
+            if (!pendingConfirmForm) {
+                return;
+            }
+            var form = pendingConfirmForm;
+            pendingConfirmForm = null;
+            form.dataset.confirmed = "true";
+            if (confirmModal) {
+                confirmModal.hide();
+            }
+            form.requestSubmit();
+        });
+    }
 
     document.querySelectorAll(".js-editable-field").forEach(function (field) {
         var input = field.querySelector("[data-editable-control]");
@@ -55,6 +87,112 @@ document.addEventListener("DOMContentLoaded", function () {
             input.focus();
             if (typeof input.select === "function") {
                 input.select();
+            }
+        });
+    });
+
+    document.querySelectorAll(".js-auth-form").forEach(function (form) {
+        var errorEl = form.querySelector(".js-auth-error");
+        var email = form.querySelector("input[name='email']");
+        var password = form.querySelector("input[name='password']");
+
+        function showAuthError(message, target) {
+            if (!errorEl) {
+                return;
+            }
+            errorEl.textContent = message;
+            errorEl.classList.remove("d-none");
+            if (target) {
+                target.focus();
+            }
+        }
+
+        function clearAuthError() {
+            if (!errorEl) {
+                return;
+            }
+            errorEl.textContent = "";
+            errorEl.classList.add("d-none");
+        }
+
+        [email, password].forEach(function (input) {
+            if (input) {
+                input.addEventListener("input", clearAuthError);
+            }
+        });
+
+        form.addEventListener("submit", function (event) {
+            clearAuthError();
+            if (!email || !email.value.trim()) {
+                event.preventDefault();
+                showAuthError("Email wajib diisi.", email);
+                return;
+            }
+            if (!email.checkValidity()) {
+                event.preventDefault();
+                showAuthError("Format email tidak valid. Gunakan format nama@email.com.", email);
+                return;
+            }
+            if (!password || !password.value.trim()) {
+                event.preventDefault();
+                showAuthError("Password wajib diisi.", password);
+            }
+        });
+    });
+
+    document.querySelectorAll(".js-payment-form").forEach(function (form) {
+        var errorEl = form.querySelector(".js-payment-error");
+        var proofInput = form.querySelector("input[name='buktiPembayaran']");
+        var maxSize = 5 * 1024 * 1024;
+        var allowedExtensions = ["pdf", "png", "svg", "jpg", "jpeg"];
+
+        function showPaymentError(message, target) {
+            if (!errorEl) {
+                return;
+            }
+            errorEl.textContent = message;
+            errorEl.classList.remove("d-none");
+            if (target) {
+                target.focus();
+            }
+        }
+
+        function clearPaymentError() {
+            if (!errorEl) {
+                return;
+            }
+            errorEl.textContent = "";
+            errorEl.classList.add("d-none");
+        }
+
+        form.querySelectorAll("input").forEach(function (input) {
+            input.addEventListener("change", clearPaymentError);
+            input.addEventListener("input", clearPaymentError);
+        });
+
+        form.addEventListener("submit", function (event) {
+            clearPaymentError();
+            var selectedMethod = form.querySelector("input[name='metodePembayaran']:checked");
+            if (!selectedMethod) {
+                event.preventDefault();
+                showPaymentError("Metode pembayaran wajib dipilih.", form.querySelector("input[name='metodePembayaran']"));
+                return;
+            }
+            var file = proofInput && proofInput.files ? proofInput.files[0] : null;
+            if (!file) {
+                event.preventDefault();
+                showPaymentError("Bukti pembayaran wajib diunggah.", proofInput);
+                return;
+            }
+            var extension = file.name.split(".").pop().toLowerCase();
+            if (allowedExtensions.indexOf(extension) === -1) {
+                event.preventDefault();
+                showPaymentError("Format bukti pembayaran harus PDF, PNG, SVG, JPG, atau JPEG.", proofInput);
+                return;
+            }
+            if (file.size > maxSize) {
+                event.preventDefault();
+                showPaymentError("Ukuran bukti pembayaran maksimal 5MB.", proofInput);
             }
         });
     });

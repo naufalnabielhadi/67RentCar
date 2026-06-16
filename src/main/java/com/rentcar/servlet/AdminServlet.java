@@ -30,8 +30,7 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("mobilList", mobilDAO.findAll());
             request.setAttribute("riwayatList", bookingDAO.findAll());
             request.setAttribute("mobilTersedia", mobilDAO.countByStatus(Mobil.STATUS_TERSEDIA));
-            request.setAttribute("mobilPerbaikan", mobilDAO.countByStatus(Mobil.STATUS_DALAM_PERBAIKAN));
-            request.setAttribute("mobilDisewa", mobilDAO.countByStatus(Mobil.STATUS_DISEWA));
+            request.setAttribute("mobilTidakTersedia", mobilDAO.countByStatus(Mobil.STATUS_TIDAK_TERSEDIA));
             request.setAttribute("pendapatanBulanIni", bookingDAO.sumPendapatanBulanIni());
             request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
         } catch (SQLException ex) {
