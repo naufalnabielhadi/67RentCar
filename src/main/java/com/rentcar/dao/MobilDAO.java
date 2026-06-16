@@ -67,6 +67,23 @@ public class MobilDAO {
         return null;
     }
 
+    public boolean existsByPlatNomor(String platNomor, String excludeIdMobil) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM mobil WHERE plat_nomor = ?";
+        if (!ValidationUtil.isBlank(excludeIdMobil)) {
+            sql += " AND id_mobil <> ?";
+        }
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, platNomor);
+            if (!ValidationUtil.isBlank(excludeIdMobil)) {
+                stmt.setString(2, excludeIdMobil);
+            }
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getLong(1) > 0;
+            }
+        }
+    }
+
     public List<Mobil> findAvailable() throws SQLException {
         List<Mobil> mobilList = new ArrayList<>();
         String sql = "SELECT * FROM mobil " +
@@ -163,6 +180,17 @@ public class MobilDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, idMobil);
             return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean hasBookingHistory(String idMobil) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM detail_booking WHERE id_mobil = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idMobil);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getLong(1) > 0;
+            }
         }
     }
 

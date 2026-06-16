@@ -14,6 +14,14 @@
         <c:if test="${not empty error}">
             <div class="alert error">${error}</div>
         </c:if>
+        <c:if test="${not empty sessionScope.error}">
+            <div class="alert error">${sessionScope.error}</div>
+            <c:remove var="error" scope="session" />
+        </c:if>
+        <c:if test="${not empty sessionScope.success}">
+            <div class="alert success">${sessionScope.success}</div>
+            <c:remove var="success" scope="session" />
+        </c:if>
 
         <form method="get" action="${pageContext.request.contextPath}/admin/pesanan" class="table-toolbar admin-history-toolbar card p-3 mb-4">
             <div class="row g-3 align-items-center">
@@ -67,7 +75,7 @@
                             <td>
                                 <c:set var="adminStatusLabel" value="${item.statusLabel}" />
                                 <c:set var="adminStatusIconClass" value="${item.statusIconClass}" />
-                                <c:if test="${item.statusBooking == 'DIKONFIRMASI'}">
+                                <c:if test="${item.statusBooking == 'SELESAI'}">
                                     <c:set var="adminStatusLabel" value="Selesai" />
                                     <c:set var="adminStatusIconClass" value="status-icon-check" />
                                 </c:if>
@@ -123,7 +131,7 @@
                                 <dt>Tanggal Kembali</dt><dd>${item.tanggalKembali}</dd>
                                 <dt>Durasi</dt><dd>${item.durasiHari} Hari</dd>
                                 <dt>Total Harga</dt><dd><fmt:formatNumber value="${item.totalBiaya}" type="currency" currencySymbol="Rp " maxFractionDigits="0"/></dd>
-                                <dt>Status Booking</dt><dd>${item.statusBooking == 'DIKONFIRMASI' ? 'Selesai' : item.statusLabel}</dd>
+                                <dt>Status Booking</dt><dd>${item.statusBooking == 'SELESAI' ? 'Selesai' : item.statusLabel}</dd>
                                 <dt>Status Pembayaran</dt><dd>${item.paymentLabel}</dd>
                             </dl>
                         </div>
@@ -137,6 +145,13 @@
                                 <form method="post" action="${pageContext.request.contextPath}/admin/booking/konfirmasi">
                                     <input type="hidden" name="idBooking" value="${item.idBooking}">
                                     <button class="btn-primary" type="submit">Konfirmasi Booking</button>
+                                </form>
+                            </c:if>
+                            <c:if test="${item.statusBooking == 'DIKONFIRMASI' || item.statusBooking == 'DIBAYAR'}">
+                                <form method="post" action="${pageContext.request.contextPath}/admin/booking/selesai"
+                                      onsubmit="return confirm('Yakin ingin menyelesaikan booking ini dan mengembalikan mobil menjadi tersedia?');">
+                                    <input type="hidden" name="idBooking" value="${item.idBooking}">
+                                    <button class="btn-primary" type="submit">Selesaikan Booking</button>
                                 </form>
                             </c:if>
                         </div>

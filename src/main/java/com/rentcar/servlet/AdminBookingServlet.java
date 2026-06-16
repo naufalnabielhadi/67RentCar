@@ -11,9 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
 
-@WebServlet({"/admin/booking/konfirmasi", "/admin/booking/tolak"})
+@WebServlet({"/admin/booking/konfirmasi", "/admin/booking/tolak", "/admin/booking/selesai"})
 public class AdminBookingServlet extends HttpServlet {
     private final BookingDAO bookingDAO = new BookingDAO();
 
@@ -24,18 +23,46 @@ public class AdminBookingServlet extends HttpServlet {
         }
 
         String idBooking = request.getParameter("idBooking");
+        HttpSession session = request.getSession();
         try {
-            if ("/admin/booking/konfirmasi".equals(request.getServletPath())) {
-                bookingDAO.confirmBooking(idBooking);
+            String servletPath = request.getServletPath();
+            boolean updated;
+            if ("/admin/booking/konfirmasi".equals(servletPath)) {
+                updated = bookingDAO.confirmBooking(idBooking);
+                setFlash(session, updated, "Booking berhasil dikonfirmasi.", "Booking tidak ditemukan atau sudah tidak dapat dikonfirmasi.");
+            } else if ("/admin/booking/tolak".equals(servletPath)) {
+                updated = bookingDAO.rejectBooking(idBooking);
+                setFlash(session, updated, "Booking berhasil ditolak.", "Booking tidak ditemukan atau sudah tidak dapat ditolak.");
+            } else if ("/admin/booking/selesai".equals(servletPath)) {
+                updated = bookingDAO.completeBooking(idBooking);
+                setFlash(session, updated, "Booking berhasil diselesaikan.", "Booking tidak ditemukan atau gagal diselesaikan.");
             } else {
-                bookingDAO.rejectBooking(idBooking);
+                session.setAttribute("error", "Aksi booking tidak dikenali.");
             }
             response.sendRedirect(request.getContextPath() + "/admin/pesanan");
         } catch (SQLException ex) {
-            request.setAttribute("error", "Gagal memproses booking: " + ex.getMessage());
-            request.setAttribute("riwayatList", Collections.emptyList());
-            request.getRequestDispatcher("/WEB-INF/views/admin/riwayat-pesanan.jsp").forward(request, response);
+            session.setAttribute("error", friendlyMessage(ex));
+            response.sendRedirect(request.getContextPath() + "/admin/pesanan");
         }
+    }
+
+    private void setFlash(HttpSession session, boolean success, String successMessage, String errorMessage) {
+        if (success) {
+            session.setAttribute("success", successMessage);
+        } else {
+            session.setAttribute("error", errorMessage);
+        }
+    }
+
+    private String friendlyMessage(SQLException ex) {
+        String message = ex.getMessage();
+        if ("Booking belum dapat diselesaikan karena tanggal kembali belum tercapai.".equals(message)
+                || "Booking tidak ditemukan.".equals(message)
+                || "Booking sudah tidak aktif atau sudah selesai.".equals(message)
+                || "Mobil masih memiliki booking aktif lain.".equals(message)) {
+            return message;
+        }
+        return "Gagal memproses booking. Silakan coba lagi.";
     }
 
     private boolean requireRole(HttpServletRequest request, HttpServletResponse response, String requiredRole) throws IOException {

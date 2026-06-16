@@ -26,6 +26,7 @@ public class BookingDAO {
     public static final String STATUS_DIBAYAR = "DIBAYAR";
     public static final String STATUS_DITOLAK = "DITOLAK";
     public static final String STATUS_DIBATALKAN = "DIBATALKAN";
+    public static final String STATUS_SELESAI = "SELESAI";
     private final MobilDAO mobilDAO = new MobilDAO();
 
     public String createBooking(String idUser, String idMobil, LocalDate tanggalSewa, LocalDate tanggalKembali) throws SQLException {
@@ -187,6 +188,86 @@ public class BookingDAO {
                 }
                 conn.commit();
                 return updated;
+            } catch (SQLException ex) {
+                conn.rollback();
+                throw ex;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
+
+    public boolean completeBooking(String idBooking) throws SQLException {
+        String selectSql = "SELECT b.status, d.id_mobil, d.tanggal_kembali " +
+                "FROM booking b JOIN detail_booking d ON b.id_booking = d.id_booking " +
+                "WHERE b.id_booking = ? FOR UPDATE";
+        String updateBookingSql = "UPDATE booking SET status = ? WHERE id_booking = ? AND status IN (?, ?)";
+        String activeBookingSql = "SELECT COUNT(*) FROM booking b " +
+                "JOIN detail_booking d ON b.id_booking = d.id_booking " +
+                "WHERE d.id_mobil = ? AND b.id_booking <> ? " +
+                "AND b.status IN (?, ?, ?, ?)";
+        String releaseMobilSql = "UPDATE mobil SET status = TRUE, status_mobil = ? WHERE id_mobil = ? AND status_mobil = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement selectStmt = conn.prepareStatement(selectSql);
+                 PreparedStatement updateBookingStmt = conn.prepareStatement(updateBookingSql);
+                 PreparedStatement activeBookingStmt = conn.prepareStatement(activeBookingSql);
+                 PreparedStatement releaseMobilStmt = conn.prepareStatement(releaseMobilSql)) {
+
+                selectStmt.setString(1, idBooking);
+                String statusBooking;
+                String idMobil;
+                LocalDate tanggalKembali;
+                try (ResultSet rs = selectStmt.executeQuery()) {
+                    if (!rs.next()) {
+                        conn.rollback();
+                        throw new SQLException("Booking tidak ditemukan.");
+                    }
+                    statusBooking = rs.getString("status");
+                    idMobil = rs.getString("id_mobil");
+                    tanggalKembali = rs.getDate("tanggal_kembali").toLocalDate();
+                }
+
+                if (!STATUS_DIKONFIRMASI.equals(statusBooking) && !STATUS_DIBAYAR.equals(statusBooking)) {
+                    conn.rollback();
+                    throw new SQLException("Booking sudah tidak aktif atau sudah selesai.");
+                }
+
+                if (tanggalKembali.isAfter(LocalDate.now())) {
+                    conn.rollback();
+                    throw new SQLException("Booking belum dapat diselesaikan karena tanggal kembali belum tercapai.");
+                }
+
+                updateBookingStmt.setString(1, STATUS_SELESAI);
+                updateBookingStmt.setString(2, idBooking);
+                updateBookingStmt.setString(3, STATUS_DIKONFIRMASI);
+                updateBookingStmt.setString(4, STATUS_DIBAYAR);
+                if (updateBookingStmt.executeUpdate() == 0) {
+                    conn.rollback();
+                    return false;
+                }
+
+                activeBookingStmt.setString(1, idMobil);
+                activeBookingStmt.setString(2, idBooking);
+                activeBookingStmt.setString(3, STATUS_MENUNGGU_KONFIRMASI);
+                activeBookingStmt.setString(4, STATUS_DIKONFIRMASI);
+                activeBookingStmt.setString(5, STATUS_MENUNGGU_PEMBAYARAN);
+                activeBookingStmt.setString(6, STATUS_DIBAYAR);
+                boolean hasActiveBooking;
+                try (ResultSet rs = activeBookingStmt.executeQuery()) {
+                    hasActiveBooking = rs.next() && rs.getLong(1) > 0;
+                }
+
+                if (!hasActiveBooking) {
+                    releaseMobilStmt.setString(1, Mobil.STATUS_TERSEDIA);
+                    releaseMobilStmt.setString(2, idMobil);
+                    releaseMobilStmt.setString(3, Mobil.STATUS_DISEWA);
+                    releaseMobilStmt.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
             } catch (SQLException ex) {
                 conn.rollback();
                 throw ex;
@@ -481,8 +562,11 @@ public class BookingDAO {
     }
 
     private String statusLabel(String statusBooking, String statusPembayaran) {
-        if (STATUS_DIBAYAR.equals(statusBooking) || "SELESAI".equalsIgnoreCase(statusBooking)) {
+        if (STATUS_SELESAI.equals(statusBooking)) {
             return "Selesai";
+        }
+        if (STATUS_DIBAYAR.equals(statusBooking)) {
+            return "Dibayar";
         }
         if (STATUS_DIKONFIRMASI.equals(statusBooking) || STATUS_MENUNGGU_PEMBAYARAN.equals(statusBooking)) {
             return "Dikonfirmasi";
@@ -507,10 +591,10 @@ public class BookingDAO {
     }
 
     private String statusBadgeClass(String statusBooking, String statusPembayaran) {
-        if (STATUS_DIBAYAR.equals(statusBooking) || "SELESAI".equalsIgnoreCase(statusBooking)) {
+        if (STATUS_SELESAI.equals(statusBooking)) {
             return "status-done";
         }
-        if (STATUS_DIKONFIRMASI.equals(statusBooking) || STATUS_MENUNGGU_PEMBAYARAN.equals(statusBooking)) {
+        if (STATUS_DIKONFIRMASI.equals(statusBooking) || STATUS_MENUNGGU_PEMBAYARAN.equals(statusBooking) || STATUS_DIBAYAR.equals(statusBooking)) {
             return "status-active";
         }
         if (STATUS_DITOLAK.equals(statusBooking) || STATUS_DIBATALKAN.equals(statusBooking)) {
@@ -530,10 +614,10 @@ public class BookingDAO {
     }
 
     private String statusIconClass(String statusBooking, String statusPembayaran) {
-        if (STATUS_DIBAYAR.equals(statusBooking) || "SELESAI".equalsIgnoreCase(statusBooking)) {
+        if (STATUS_SELESAI.equals(statusBooking)) {
             return "status-icon-check";
         }
-        if (STATUS_DIKONFIRMASI.equals(statusBooking) || STATUS_MENUNGGU_PEMBAYARAN.equals(statusBooking)) {
+        if (STATUS_DIKONFIRMASI.equals(statusBooking) || STATUS_MENUNGGU_PEMBAYARAN.equals(statusBooking) || STATUS_DIBAYAR.equals(statusBooking)) {
             return "status-icon-car";
         }
         if (STATUS_DITOLAK.equals(statusBooking) || STATUS_DIBATALKAN.equals(statusBooking)) {

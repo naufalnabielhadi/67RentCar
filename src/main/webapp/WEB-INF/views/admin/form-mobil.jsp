@@ -4,8 +4,17 @@
     <%@ include file="/WEB-INF/views/layout/sidebar-admin.jsp" %>
     <section class="admin-content">
         <section class="form-card">
+            <c:set var="formMerk" value="${requestScope.merkValue != null ? requestScope.merkValue : mobil.merk}" />
+            <c:set var="formModel" value="${requestScope.modelValue != null ? requestScope.modelValue : mobil.model}" />
+            <c:set var="formPlatNomor" value="${requestScope.platNomorValue != null ? requestScope.platNomorValue : mobil.platNomor}" />
+            <c:set var="formHarga" value="${requestScope.hargaSewaPerHariValue != null ? requestScope.hargaSewaPerHariValue : mobil.hargaSewaPerHari}" />
+            <c:set var="formTahun" value="${requestScope.tahunValue != null ? requestScope.tahunValue : (empty mobil ? 2024 : mobil.tahun)}" />
+            <c:set var="formTransmisi" value="${requestScope.transmisiValue != null ? requestScope.transmisiValue : mobil.transmisi}" />
+            <c:set var="formBahanBakar" value="${requestScope.bahanBakarValue != null ? requestScope.bahanBakarValue : (empty mobil ? 'Bensin' : mobil.bahanBakar)}" />
+            <c:set var="formKapasitas" value="${requestScope.kapasitasValue != null ? requestScope.kapasitasValue : (empty mobil ? '5 Kursi' : fn:replace(mobil.kapasitas, 'Penumpang', 'Kursi'))}" />
+            <c:set var="formStatus" value="${requestScope.statusMobilValue != null ? requestScope.statusMobilValue : mobil.statusMobil}" />
             <span class="eyebrow">Manajemen Armada</span>
-            <h1>${empty mobil ? 'Tambah Mobil' : 'Edit Mobil'}</h1>
+            <h1>${empty mobil.idMobil ? 'Tambah Mobil' : 'Edit Mobil'}</h1>
             <p class="muted">Unggah gambar JPG, JPEG, PNG, atau GIF maksimal 2MB. Jika tidak ada gambar, sistem memakai gambar default.</p>
 
             <c:if test="${not empty error}">
@@ -17,31 +26,36 @@
                 <input type="hidden" name="gambarLama" value="${mobil.gambar}">
 
                 <label>Merk</label>
-                <input class="form-control" type="text" name="merk" value="${mobil.merk}" required>
+                <input class="form-control" type="text" name="merk" value="${formMerk}" required>
 
                 <label>Model</label>
-                <input class="form-control" type="text" name="model" value="${mobil.model}" required>
+                <input class="form-control" type="text" name="model" value="${formModel}" required>
 
                 <label>Plat Nomor</label>
-                <input class="form-control" type="text" name="platNomor" value="${mobil.platNomor}" required>
+                <input class="form-control" type="text" name="platNomor" value="${formPlatNomor}" required>
 
                 <label>Harga Sewa Per Hari</label>
-                <input class="form-control" type="number" name="hargaSewaPerHari" value="${mobil.hargaSewaPerHari}" min="0" step="1000" required>
+                <input class="form-control" type="number" name="hargaSewaPerHari" value="${formHarga}" min="1000" step="1000" required>
 
                 <label>Tahun</label>
-                <input class="form-control" type="number" name="tahun" value="${empty mobil ? 2024 : mobil.tahun}" min="2000" max="2035" required>
+                <input class="form-control" type="number" name="tahun" value="${formTahun}" min="2000" max="2035" required>
 
                 <label>Transmisi</label>
                 <select class="form-select" name="transmisi" required>
-                    <option value="Manual" ${mobil.transmisi == 'Manual' ? 'selected' : ''}>Manual</option>
-                    <option value="Automatic" ${mobil.transmisi == 'Automatic' ? 'selected' : ''}>Automatic</option>
+                    <option value="Manual" ${formTransmisi == 'Manual' ? 'selected' : ''}>Manual</option>
+                    <option value="Otomatis" ${formTransmisi == 'Otomatis' || formTransmisi == 'Automatic' ? 'selected' : ''}>Otomatis</option>
                 </select>
 
                 <label>Bahan Bakar</label>
-                <input class="form-control" type="text" name="bahanBakar" value="${empty mobil ? 'Bensin' : mobil.bahanBakar}" required>
+                <select class="form-select" name="bahanBakar" required>
+                    <option value="Bensin" ${formBahanBakar == 'Bensin' ? 'selected' : ''}>Bensin</option>
+                    <option value="Diesel" ${formBahanBakar == 'Diesel' ? 'selected' : ''}>Diesel</option>
+                    <option value="Hybrid" ${formBahanBakar == 'Hybrid' ? 'selected' : ''}>Hybrid</option>
+                    <option value="Listrik" ${formBahanBakar == 'Listrik' ? 'selected' : ''}>Listrik</option>
+                </select>
 
                 <label>Kapasitas</label>
-                <input class="form-control" type="text" name="kapasitas" value="${empty mobil ? '5 Kursi' : fn:replace(mobil.kapasitas, 'Penumpang', 'Kursi')}" required>
+                <input class="form-control" type="number" name="kapasitas" value="${fn:replace(fn:replace(formKapasitas, ' Kursi', ''), ' Penumpang', '')}" min="1" required>
 
                 <label>Gambar Mobil</label>
                 <div class="upload-dropzone car-upload-dropzone js-car-dropzone">
@@ -71,8 +85,8 @@
                     </c:when>
                     <c:otherwise>
                         <select class="form-select" name="statusMobil">
-                            <option value="TERSEDIA" ${empty mobil || mobil.statusMobil == 'TERSEDIA' ? 'selected' : ''}>Tersedia</option>
-                            <option value="DALAM_PERBAIKAN" ${mobil.statusMobil == 'DALAM_PERBAIKAN' ? 'selected' : ''}>Dalam Perbaikan</option>
+                            <option value="TERSEDIA" ${empty formStatus || formStatus == 'TERSEDIA' ? 'selected' : ''}>Tersedia</option>
+                            <option value="DALAM_PERBAIKAN" ${formStatus == 'DALAM_PERBAIKAN' ? 'selected' : ''}>Dalam Perbaikan</option>
                         </select>
                     </c:otherwise>
                 </c:choose>
