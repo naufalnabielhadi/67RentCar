@@ -307,14 +307,14 @@ public class StaticPageServlet extends HttpServlet {
         }
     }
 
-    private void deleteAccount(HttpServletRequest request, HttpServletResponse response, User user) throws SQLException, IOException {
+    private void deleteAccount(HttpServletRequest request, HttpServletResponse response, User user) throws SQLException, IOException, ServletException {
         if (bookingDAO.hasActiveBookingByUser(user.getIdUser())) {
-            request.setAttribute("error", "Akun tidak dapat dihapus saat masih memiliki booking aktif.");
+            forwardCustomerSettingsError(request, response, "Akun tidak dapat dihapus saat masih memiliki booking aktif.");
             return;
         }
         try {
             if (!userDAO.deleteAccountAndHistory(user.getIdUser())) {
-                request.setAttribute("error", "Akun tidak dapat dihapus.");
+                forwardCustomerSettingsError(request, response, "Akun tidak dapat dihapus.");
                 return;
             }
             HttpSession session = request.getSession(false);
@@ -325,11 +325,17 @@ public class StaticPageServlet extends HttpServlet {
             return;
         } catch (SQLException ex) {
             if (ex.getMessage() != null && ex.getMessage().contains("booking aktif")) {
-                request.setAttribute("error", "Akun tidak dapat dihapus saat masih memiliki booking aktif.");
+                forwardCustomerSettingsError(request, response, "Akun tidak dapat dihapus saat masih memiliki booking aktif.");
                 return;
             }
             throw ex;
         }
+    }
+
+    private void forwardCustomerSettingsError(HttpServletRequest request, HttpServletResponse response, String message)
+            throws ServletException, IOException {
+        request.setAttribute("error", message);
+        request.getRequestDispatcher("/WEB-INF/views/pelanggan/pengaturan.jsp").forward(request, response);
     }
 
     private boolean requireRole(HttpServletRequest request, HttpServletResponse response, String requiredRole) throws IOException {
