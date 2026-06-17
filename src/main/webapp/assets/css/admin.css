@@ -927,3 +927,23 @@
     }
 }
 
+@media (min-width: 901px) {
+    .app-shell,
+    .admin-layout {
+        align-items: stretch;
+    }
+
+    .sidebar {
+        height: auto;
+        min-height: 100vh;
+        align-self: stretch;
+        overflow-y: visible;
+    }
+
+    .sidebar .danger-link {
+        position: static;
+        bottom: auto;
+        box-shadow: none;
+    }
+}
+
