@@ -15,14 +15,14 @@
                 <span class="contact-icon whatsapp-icon"></span>
                 <h2>Hubungi via WhatsApp</h2>
                 <p>Respon cepat untuk pertanyaan mendesak dan konfirmasi pesanan instan.</p>
-                <a class="btn-whatsapp full" href="https://wa.me/6281200000067" target="_blank" rel="noopener">Chat Sekarang</a>
+                <a class="btn-whatsapp full" href="https://wa.me/6282123714387" target="_blank" rel="noopener">Chat Sekarang</a>
             </article>
 
             <article class="contact-card">
                 <span class="contact-icon email-icon"></span>
                 <h2>Kirim Email</h2>
                 <p>Untuk pertanyaan umum, pengajuan kerjasama, atau keluhan resmi tertulis.</p>
-                <a class="btn-primary full" href="mailto:admin@67rentcar.com">Kirim Email</a>
+                <a class="btn-primary full" href="mailto:naufal.nabiel24@pd.sman1bdg.sch.id">Kirim Email</a>
             </article>
         </div>
     </section>

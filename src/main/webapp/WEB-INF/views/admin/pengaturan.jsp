@@ -51,10 +51,53 @@
                 </form>
 
                 <div class="settings-divider"></div>
+                <h3>Kartu Identitas Admin</h3>
+                <form class="settings-form js-identity-form" method="post" action="${pageContext.request.contextPath}/admin/pengaturan" enctype="multipart/form-data" novalidate>
+                    <input type="hidden" name="action" value="identity">
+                    <p class="muted">
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.user.kartuIdentitas}">
+                                Kartu identitas sudah diunggah.
+                                <a class="file-attachment" href="${pageContext.request.contextPath}/assets/${sessionScope.user.kartuIdentitas}" target="_blank" rel="noopener">
+                                    <span class="file-attachment-icon" aria-hidden="true"></span>
+                                    <span>Lampiran kartu identitas</span>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                Belum ada kartu identitas admin.
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+                    <label for="kartuIdentitasAdmin">Upload KTP / Kartu Identitas</label>
+                    <div class="file-picker">
+                        <input class="visually-hidden js-identity-input js-file-input" id="kartuIdentitasAdmin" type="file" name="kartuIdentitas" accept=".png,.jpg,.jpeg,image/png,image/jpeg" required>
+                        <label class="file-picker-control" for="kartuIdentitasAdmin">
+                            <span class="file-picker-button">Pilih File</span>
+                            <span class="file-picker-name js-file-name">Belum ada file dipilih</span>
+                        </label>
+                    </div>
+                    <p class="muted upload-help">PNG, JPG, atau JPEG. Maksimal 5MB.</p>
+                    <div class="alert error js-identity-upload-error d-none" role="alert"></div>
+                    <button class="btn-primary settings-button" type="submit">Simpan Kartu Identitas <span>></span></button>
+                </form>
+
+                <div class="settings-divider"></div>
                 <dl class="detail-list admin-profile-list">
                     <dt>Nama Admin</dt><dd>${sessionScope.user.username}</dd>
                     <dt>Email</dt><dd>${sessionScope.user.email}</dd>
                     <dt>Nomor Telepon</dt><dd>${empty sessionScope.user.telepon ? '-' : sessionScope.user.telepon}</dd>
+                    <dt>Kartu Identitas</dt>
+                    <dd>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.user.kartuIdentitas}">
+                                <a class="file-attachment" href="${pageContext.request.contextPath}/assets/${sessionScope.user.kartuIdentitas}" target="_blank" rel="noopener">
+                                    <span class="file-attachment-icon" aria-hidden="true"></span>
+                                    <span>Tersimpan</span>
+                                </a>
+                            </c:when>
+                            <c:otherwise>-</c:otherwise>
+                        </c:choose>
+                    </dd>
                     <dt>Role</dt><dd>${sessionScope.user.role}</dd>
                     <dt>Status</dt><dd>${sessionScope.user.statusAkun}</dd>
                 </dl>

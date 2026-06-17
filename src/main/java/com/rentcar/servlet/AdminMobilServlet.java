@@ -53,6 +53,11 @@ public class AdminMobilServlet extends HttpServlet {
 
         try {
             if ("/admin/mobil/form".equals(request.getServletPath())) {
+                User user = (User) request.getSession().getAttribute("user");
+                if (user == null || !user.hasKartuIdentitas()) {
+                    forwardListError(request, response, "Lengkapi KTP atau kartu identitas admin di Pengaturan Akun sebelum menambah atau mengedit mobil.");
+                    return;
+                }
                 String idMobil = request.getParameter("id");
                 if (!ValidationUtil.isBlank(idMobil)) {
                     Mobil mobil = mobilDAO.findById(idMobil);
@@ -79,6 +84,15 @@ public class AdminMobilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!requireRole(request, response, "ADMIN")) {
+            return;
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || !user.hasKartuIdentitas()) {
+            if ("/admin/mobil/delete".equals(request.getServletPath())) {
+                forwardListError(request, response, "Lengkapi KTP atau kartu identitas admin di Pengaturan Akun sebelum menghapus mobil.");
+            } else {
+                forwardFormError(request, response, buildMobilFromRequest(request, new ArrayList<>()), "Lengkapi KTP atau kartu identitas admin di Pengaturan Akun sebelum menyimpan data mobil.");
+            }
             return;
         }
 

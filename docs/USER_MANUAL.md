@@ -7,7 +7,7 @@ Dokumen ini adalah template user manual aplikasi 67 RENT CAR. Tambahkan screensh
 67 RENT CAR adalah aplikasi rental mobil berbasis Java Web MVC. Aplikasi menyediakan dua role utama:
 
 - Admin: mengelola data mobil, memantau booking, mengonfirmasi atau menolak booking, menyelesaikan booking, dan melihat laporan transaksi.
-- Pelanggan: melihat katalog mobil, membuat booking, melakukan pembayaran, melihat riwayat pesanan, melihat riwayat transaksi, menghubungi admin, dan mengatur profil.
+- Pelanggan: melihat katalog mobil, melengkapi kartu identitas, membuat booking, melakukan pembayaran, melihat riwayat pesanan, melihat riwayat transaksi, menghubungi admin, dan mengatur profil.
 
 [Gambar: Halaman beranda 67 RENT CAR]
 
@@ -84,10 +84,13 @@ http://localhost:8080/67rentcar
 
 1. Pilih mobil berstatus `Tersedia`.
 2. Klik tombol booking.
-3. Isi tanggal sewa dan tanggal kembali.
-4. Sistem menghitung durasi dan total biaya.
-5. Klik konfirmasi booking.
-6. Booking masuk ke riwayat dengan status `MENUNGGU KONFIRMASI`.
+3. Pastikan KTP atau kartu identitas sudah diunggah pada menu `Pengaturan Akun`.
+4. Isi tanggal sewa dan tanggal kembali.
+5. Sistem menghitung durasi dan total biaya.
+6. Klik konfirmasi booking.
+7. Booking masuk ke riwayat dengan status `MENUNGGU KONFIRMASI`.
+
+Catatan: pengguna yang belum mengunggah kartu identitas akan diminta melengkapi data terlebih dahulu.
 
 [Gambar: Form booking dan ringkasan biaya]
 
@@ -128,7 +131,8 @@ http://localhost:8080/67rentcar
 ### 5.8 Kontak Admin
 
 1. Buka menu `Kontak Admin`.
-2. Lihat informasi kontak yang tersedia.
+2. Pilih WhatsApp untuk menghubungi `+62 821 2371 4387`.
+3. Pilih Email untuk menghubungi `naufal.nabiel24@pd.sman1bdg.sch.id`.
 
 [Gambar: Halaman kontak admin]
 
@@ -136,7 +140,9 @@ http://localhost:8080/67rentcar
 
 1. Buka menu `Pengaturan`.
 2. Ubah profil atau password.
-3. Sistem menampilkan pesan berhasil atau gagal sebagai bagian dari UI aplikasi.
+3. Unggah KTP atau kartu identitas.
+4. Format kartu identitas yang diterima adalah PNG, JPG, atau JPEG dengan ukuran maksimal 5MB.
+5. Sistem menampilkan pesan berhasil atau gagal sebagai bagian dari UI aplikasi.
 
 [Gambar: Halaman pengaturan pelanggan]
 
@@ -207,7 +213,9 @@ Halaman laporan menampilkan ringkasan transaksi dan status pembayaran. Status pe
 
 ### 6.5 Pengaturan Admin
 
-Admin dapat mengubah data profil dan password.
+Admin dapat mengubah data profil dan password. Admin juga dapat mengunggah kartu identitas admin dengan format PNG, JPG, atau JPEG maksimal 5MB.
+
+Catatan: admin wajib mengunggah kartu identitas sebelum melakukan aksi operasional seperti tambah mobil, edit mobil, hapus mobil, konfirmasi booking, tolak booking, atau selesaikan booking. Admin tetap dapat melihat dashboard, daftar pesanan, dan detail pesanan.
 
 [Gambar: Halaman pengaturan admin]
 

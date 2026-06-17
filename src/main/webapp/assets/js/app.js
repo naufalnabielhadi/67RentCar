@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
             form.dataset.confirmed = "true";
-            form.requestSubmit();
+            HTMLFormElement.prototype.submit.call(form);
         });
     });
 
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (confirmModal) {
                 confirmModal.hide();
             }
-            form.requestSubmit();
+            HTMLFormElement.prototype.submit.call(form);
         });
     }
 
@@ -89,6 +89,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 input.select();
             }
         });
+    });
+
+    document.querySelectorAll(".js-file-input").forEach(function (input) {
+        var wrapper = input.closest(".file-picker");
+        var fileNameEl = wrapper ? wrapper.querySelector(".js-file-name") : null;
+        var defaultText = "Belum ada file dipilih";
+
+        function updateFileName() {
+            if (!fileNameEl) {
+                return;
+            }
+            var file = input.files && input.files[0] ? input.files[0] : null;
+            fileNameEl.textContent = file ? file.name : defaultText;
+        }
+
+        input.addEventListener("change", updateFileName);
+        updateFileName();
     });
 
     document.querySelectorAll(".js-auth-form").forEach(function (form) {
@@ -165,10 +182,39 @@ document.addEventListener("DOMContentLoaded", function () {
             errorEl.classList.add("d-none");
         }
 
+        function validatePaymentProof(showError) {
+            var file = proofInput && proofInput.files ? proofInput.files[0] : null;
+            if (!file) {
+                return true;
+            }
+            var extension = file.name.indexOf(".") === -1 ? "" : file.name.split(".").pop().toLowerCase();
+            if (allowedExtensions.indexOf(extension) === -1) {
+                if (showError) {
+                    showPaymentError("Format bukti pembayaran harus PDF, PNG, SVG, JPG, atau JPEG.", proofInput);
+                }
+                proofInput.value = "";
+                return false;
+            }
+            if (file.size > maxSize) {
+                if (showError) {
+                    showPaymentError("Ukuran bukti pembayaran maksimal 5MB.", proofInput);
+                }
+                proofInput.value = "";
+                return false;
+            }
+            return true;
+        }
+
         form.querySelectorAll("input").forEach(function (input) {
-            input.addEventListener("change", clearPaymentError);
             input.addEventListener("input", clearPaymentError);
         });
+
+        if (proofInput) {
+            proofInput.addEventListener("change", function () {
+                clearPaymentError();
+                validatePaymentProof(true);
+            });
+        }
 
         form.addEventListener("submit", function (event) {
             clearPaymentError();
@@ -184,15 +230,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 showPaymentError("Bukti pembayaran wajib diunggah.", proofInput);
                 return;
             }
-            var extension = file.name.split(".").pop().toLowerCase();
-            if (allowedExtensions.indexOf(extension) === -1) {
+            if (!validatePaymentProof(true)) {
                 event.preventDefault();
-                showPaymentError("Format bukti pembayaran harus PDF, PNG, SVG, JPG, atau JPEG.", proofInput);
-                return;
-            }
-            if (file.size > maxSize) {
-                event.preventDefault();
-                showPaymentError("Ukuran bukti pembayaran maksimal 5MB.", proofInput);
             }
         });
     });
@@ -431,6 +470,77 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             if (initial) {
                 initial.classList.add("d-none");
+            }
+        });
+    });
+
+    document.querySelectorAll(".js-identity-form").forEach(function (form) {
+        var input = form.querySelector(".js-identity-input");
+        var errorEl = form.querySelector(".js-identity-upload-error");
+        var maxSize = 5 * 1024 * 1024;
+        var allowedTypes = ["image/jpeg", "image/png"];
+        var allowedExtensions = ["jpg", "jpeg", "png"];
+
+        function showIdentityError(message) {
+            if (!errorEl) {
+                return;
+            }
+            errorEl.textContent = message;
+            errorEl.classList.remove("d-none");
+        }
+
+        function clearIdentityError() {
+            if (!errorEl) {
+                return;
+            }
+            errorEl.textContent = "";
+            errorEl.classList.add("d-none");
+        }
+
+        function validateIdentityFile(showError) {
+            var file = input && input.files ? input.files[0] : null;
+            if (!file) {
+                return true;
+            }
+            var extension = file.name.indexOf(".") === -1 ? "" : file.name.split(".").pop().toLowerCase();
+            if (allowedExtensions.indexOf(extension) === -1 || allowedTypes.indexOf(file.type) === -1) {
+                if (showError) {
+                    showIdentityError("Format kartu identitas harus PNG, JPG, atau JPEG.");
+                }
+                input.value = "";
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return false;
+            }
+            if (file.size > maxSize) {
+                if (showError) {
+                    showIdentityError("Ukuran kartu identitas maksimal 5MB.");
+                }
+                input.value = "";
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return false;
+            }
+            return true;
+        }
+
+        if (!input) {
+            return;
+        }
+
+        input.addEventListener("change", function () {
+            clearIdentityError();
+            validateIdentityFile(true);
+        });
+
+        form.addEventListener("submit", function (event) {
+            clearIdentityError();
+            if (!input.files || !input.files[0]) {
+                event.preventDefault();
+                showIdentityError("Pilih file KTP atau kartu identitas terlebih dahulu.");
+                input.focus();
+                return;
+            }
+            if (!validateIdentityFile(true)) {
+                event.preventDefault();
             }
         });
     });

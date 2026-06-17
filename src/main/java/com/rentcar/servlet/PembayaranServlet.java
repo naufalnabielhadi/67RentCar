@@ -117,7 +117,9 @@ public class PembayaranServlet extends HttpServlet {
 
             bookingDAO.markAsPaid(idBooking);
             response.sendRedirect(request.getContextPath() + "/pelanggan/transaksi");
-        } catch (IllegalArgumentException | IllegalStateException ex) {
+        } catch (IllegalStateException ex) {
+            forwardPaymentError(request, response, request.getParameter("idBooking"), "Ukuran bukti pembayaran maksimal 5MB.");
+        } catch (IllegalArgumentException ex) {
             forwardPaymentError(request, response, request.getParameter("idBooking"), ex.getMessage());
         } catch (SQLException ex) {
             forwardPaymentError(request, response, request.getParameter("idBooking"), "Pembayaran gagal: " + ex.getMessage());

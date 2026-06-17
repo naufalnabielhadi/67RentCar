@@ -1,6 +1,6 @@
 # 67 RENT CAR
 
-67 RENT CAR adalah aplikasi Java Web MVC untuk rental mobil. Aplikasi ini menangani registrasi dan login pelanggan, katalog mobil, detail mobil, booking dan batal booking, pembayaran, riwayat pemesanan, serta panel admin untuk mengelola armada dan pesanan.
+67 RENT CAR adalah aplikasi Java Web MVC untuk rental mobil. Aplikasi ini menangani registrasi dan login pelanggan, kartu identitas pelanggan, katalog mobil, detail mobil, booking dan batal booking, pembayaran, riwayat pemesanan, serta panel admin untuk mengelola armada dan pesanan.
 
 Project ini dibuat untuk tugas besar PBO dan disusun agar bisa dikerjakan berkelompok menggunakan Git branch.
 

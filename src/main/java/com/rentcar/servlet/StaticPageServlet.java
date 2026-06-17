@@ -28,12 +28,14 @@ import java.util.Set;
 @WebServlet({"/pelanggan/kontak", "/pelanggan/pengaturan", "/admin/laporan", "/admin/pengaturan"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 2 * 1024 * 1024,
-        maxRequestSize = 6 * 1024 * 1024
+        maxFileSize = 5 * 1024 * 1024,
+        maxRequestSize = 10 * 1024 * 1024
 )
 public class StaticPageServlet extends HttpServlet {
     private static final long MAX_PROFILE_IMAGE_SIZE = 2 * 1024 * 1024;
+    private static final long MAX_IDENTITY_CARD_SIZE = 5 * 1024 * 1024;
     private static final String PROFILE_UPLOAD_DIR = "uploads/profiles";
+    private static final String IDENTITY_UPLOAD_DIR = "uploads/identities";
     private static final Set<String> PROFILE_EXTENSIONS = Set.of("jpg", "jpeg", "png");
     private static final Set<String> PROFILE_CONTENT_TYPES = Set.of("image/jpeg", "image/png");
     private final UserDAO userDAO = new UserDAO();
@@ -108,11 +110,15 @@ public class StaticPageServlet extends HttpServlet {
                 } else {
                     updatePassword(request, user);
                 }
+            } else if ("identity".equals(action)) {
+                updateIdentityCard(request, user);
             } else if (!adminSettings && "deactivate".equals(action)) {
                 deleteAccount(request, response, user);
                 return;
             }
-        } catch (SQLException | IllegalArgumentException | IllegalStateException ex) {
+        } catch (IllegalStateException ex) {
+            request.setAttribute("error", "Gagal menyimpan pengaturan: ukuran file melebihi batas yang diperbolehkan.");
+        } catch (SQLException | IllegalArgumentException ex) {
             request.setAttribute("error", "Gagal menyimpan pengaturan: " + ex.getMessage());
         }
 
@@ -195,6 +201,42 @@ public class StaticPageServlet extends HttpServlet {
         return PROFILE_UPLOAD_DIR + "/" + fileName;
     }
 
+    private void updateIdentityCard(HttpServletRequest request, User user) throws SQLException, IOException, ServletException {
+        String kartuIdentitas = resolveIdentityCard(request, user);
+        if (kartuIdentitas == null || kartuIdentitas.isBlank()) {
+            request.setAttribute("error", "Pilih file KTP atau kartu identitas terlebih dahulu.");
+            return;
+        }
+
+        if (userDAO.updateIdentityCard(user.getIdUser(), kartuIdentitas)) {
+            user.setKartuIdentitas(kartuIdentitas);
+            request.setAttribute("success", "Kartu identitas berhasil diunggah.");
+        } else {
+            request.setAttribute("error", "Kartu identitas tidak dapat diperbarui.");
+        }
+    }
+
+    private String resolveIdentityCard(HttpServletRequest request, User user) throws IOException, ServletException {
+        Part identityPart = request.getPart("kartuIdentitas");
+        if (identityPart == null || identityPart.getSize() == 0 || ValidationUtil.isBlank(identityPart.getSubmittedFileName())) {
+            return null;
+        }
+        if (identityPart.getSize() > MAX_IDENTITY_CARD_SIZE) {
+            throw new IllegalArgumentException("Ukuran kartu identitas maksimal 5MB.");
+        }
+
+        String submittedName = Paths.get(identityPart.getSubmittedFileName()).getFileName().toString();
+        String extension = getExtension(submittedName);
+        String contentType = identityPart.getContentType() == null ? "" : identityPart.getContentType().toLowerCase(Locale.ROOT);
+        if (!PROFILE_EXTENSIONS.contains(extension) || !PROFILE_CONTENT_TYPES.contains(contentType)) {
+            throw new IllegalArgumentException("Format kartu identitas harus PNG, JPG, atau JPEG.");
+        }
+
+        String fileName = "identity-" + user.getIdUser().toLowerCase(Locale.ROOT) + "-" + System.currentTimeMillis() + "." + extension;
+        saveIdentityCard(identityPart, fileName);
+        return IDENTITY_UPLOAD_DIR + "/" + fileName;
+    }
+
     private void saveProfileImage(Part imagePart, String fileName) throws IOException {
         String deployedPath = getServletContext().getRealPath("/assets/" + PROFILE_UPLOAD_DIR);
         Path sourceUploadDir = Paths.get(System.getProperty("user.dir"), "src", "main", "webapp", "assets", PROFILE_UPLOAD_DIR);
@@ -210,6 +252,28 @@ public class StaticPageServlet extends HttpServlet {
         }
 
         try (InputStream input = imagePart.getInputStream()) {
+            Files.copy(input, deployedTarget, StandardCopyOption.REPLACE_EXISTING);
+        }
+        if (!sourceTarget.equals(deployedTarget)) {
+            Files.copy(deployedTarget, sourceTarget, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    private void saveIdentityCard(Part identityPart, String fileName) throws IOException {
+        String deployedPath = getServletContext().getRealPath("/assets/" + IDENTITY_UPLOAD_DIR);
+        Path sourceUploadDir = Paths.get(System.getProperty("user.dir"), "src", "main", "webapp", "assets", IDENTITY_UPLOAD_DIR);
+        Path deployedUploadDir = deployedPath == null ? sourceUploadDir : Paths.get(deployedPath);
+
+        Files.createDirectories(sourceUploadDir);
+        Files.createDirectories(deployedUploadDir);
+
+        Path sourceTarget = sourceUploadDir.resolve(fileName).normalize();
+        Path deployedTarget = deployedUploadDir.resolve(fileName).normalize();
+        if (!sourceTarget.startsWith(sourceUploadDir.normalize()) || !deployedTarget.startsWith(deployedUploadDir.normalize())) {
+            throw new IOException("Nama file kartu identitas tidak valid.");
+        }
+
+        try (InputStream input = identityPart.getInputStream()) {
             Files.copy(input, deployedTarget, StandardCopyOption.REPLACE_EXISTING);
         }
         if (!sourceTarget.equals(deployedTarget)) {
@@ -248,15 +312,24 @@ public class StaticPageServlet extends HttpServlet {
             request.setAttribute("error", "Akun tidak dapat dihapus saat masih memiliki booking aktif.");
             return;
         }
-        if (userDAO.deleteAccountAndHistory(user.getIdUser())) {
+        try {
+            if (!userDAO.deleteAccountAndHistory(user.getIdUser())) {
+                request.setAttribute("error", "Akun tidak dapat dihapus.");
+                return;
+            }
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
             }
             response.sendRedirect(request.getContextPath() + "/login?success=deactivated");
             return;
+        } catch (SQLException ex) {
+            if (ex.getMessage() != null && ex.getMessage().contains("booking aktif")) {
+                request.setAttribute("error", "Akun tidak dapat dihapus saat masih memiliki booking aktif.");
+                return;
+            }
+            throw ex;
         }
-        request.setAttribute("error", "Akun tidak dapat dihapus.");
     }
 
     private boolean requireRole(HttpServletRequest request, HttpServletResponse response, String requiredRole) throws IOException {

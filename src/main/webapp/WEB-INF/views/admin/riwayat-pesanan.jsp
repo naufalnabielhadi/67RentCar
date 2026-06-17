@@ -119,6 +119,18 @@
                             <dl class="booking-detail-grid">
                                 <dt>ID Booking</dt><dd>${item.idBooking}</dd>
                                 <dt>Pelanggan</dt><dd>${item.username}</dd>
+                                <dt>Kartu Identitas</dt>
+                                <dd>
+                                    <c:choose>
+                                        <c:when test="${not empty item.kartuIdentitas}">
+                                            <a class="file-attachment" href="${pageContext.request.contextPath}/assets/${item.kartuIdentitas}" target="_blank" rel="noopener">
+                                                <span class="file-attachment-icon" aria-hidden="true"></span>
+                                                <span>Lampiran identitas</span>
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>Belum diunggah</c:otherwise>
+                                    </c:choose>
+                                </dd>
                                 <dt>Mobil</dt><dd>${item.merk} ${item.model}</dd>
                                 <dt>Plat Nomor</dt><dd>${item.platNomor}</dd>
                                 <dt>Tanggal Sewa</dt><dd>${item.tanggalSewa}</dd>

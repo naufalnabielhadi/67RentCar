@@ -17,6 +17,11 @@
         <c:if test="${not empty error}">
             <div class="alert error">${error}</div>
         </c:if>
+        <c:if test="${empty sessionScope.user.kartuIdentitas}">
+            <div class="alert warning">
+                KTP atau kartu identitas belum dilengkapi. Lengkapi di <a href="${pageContext.request.contextPath}/pelanggan/pengaturan">Pengaturan Akun</a> agar Anda bisa melakukan booking.
+            </div>
+        </c:if>
 
         <c:set var="latestBooking" value="${null}" />
         <c:forEach var="item" items="${riwayatList}" end="0">

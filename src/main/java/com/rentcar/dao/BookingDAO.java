@@ -528,7 +528,7 @@ public class BookingDAO {
     }
 
     private String baseHistoryQuery() {
-        return "SELECT b.id_booking, b.id_user, u.username, b.status AS status_booking, b.total_biaya, " +
+        return "SELECT b.id_booking, b.id_user, u.username, u.kartu_identitas, b.status AS status_booking, b.total_biaya, " +
                 "d.id_detail, d.id_mobil, d.tanggal_sewa, d.tanggal_kembali, d.subtotal, " +
                 "m.merk, m.model, m.plat_nomor, m.harga_sewa_per_hari, m.tahun, m.transmisi, " +
                 "m.bahan_bakar, m.kapasitas, m.gambar, " +
@@ -555,6 +555,7 @@ public class BookingDAO {
         row.put("idBooking", rs.getString("id_booking"));
         row.put("idUser", rs.getString("id_user"));
         row.put("username", rs.getString("username"));
+        row.put("kartuIdentitas", getOptionalString(rs, "kartu_identitas"));
         row.put("statusBooking", statusBooking);
         row.put("statusLabel", statusLabel(statusBooking));
         row.put("statusBadgeClass", statusBadgeClass(statusBooking));
@@ -699,6 +700,14 @@ public class BookingDAO {
 
     private boolean isCancelledOrRejected(String statusBooking) {
         return STATUS_DIBATALKAN.equals(statusBooking) || STATUS_DITOLAK.equals(statusBooking);
+    }
+
+    private String getOptionalString(ResultSet rs, String columnName) throws SQLException {
+        try {
+            return rs.getString(columnName);
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
     private LocalDate currentDate() {

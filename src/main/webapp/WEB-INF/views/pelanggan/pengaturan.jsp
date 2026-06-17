@@ -78,6 +78,43 @@
 
                 <div class="settings-divider"></div>
 
+                <h3>Kartu Identitas</h3>
+                <form class="settings-form js-identity-form" method="post" action="${pageContext.request.contextPath}/pelanggan/pengaturan" enctype="multipart/form-data" novalidate>
+                    <input type="hidden" name="action" value="identity">
+                    <div class="identity-upload">
+                        <div>
+                            <strong>Status Kartu Identitas</strong>
+                            <p>
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.user.kartuIdentitas}">
+                                        Sudah diunggah.
+                                        <a class="file-attachment" href="${pageContext.request.contextPath}/assets/${sessionScope.user.kartuIdentitas}" target="_blank" rel="noopener">
+                                            <span class="file-attachment-icon" aria-hidden="true"></span>
+                                            <span>Lampiran kartu identitas</span>
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        Belum diunggah. Wajib dilengkapi sebelum booking mobil.
+                                    </c:otherwise>
+                                </c:choose>
+                            </p>
+                        </div>
+                    </div>
+                    <label for="kartuIdentitas">Upload KTP / Kartu Identitas</label>
+                    <div class="file-picker">
+                        <input class="visually-hidden js-identity-input js-file-input" id="kartuIdentitas" type="file" name="kartuIdentitas" accept=".png,.jpg,.jpeg,image/png,image/jpeg" required>
+                        <label class="file-picker-control" for="kartuIdentitas">
+                            <span class="file-picker-button">Pilih File</span>
+                            <span class="file-picker-name js-file-name">Belum ada file dipilih</span>
+                        </label>
+                    </div>
+                    <p class="muted upload-help">PNG, JPG, atau JPEG. Maksimal 5MB.</p>
+                    <div class="alert error js-identity-upload-error d-none" role="alert"></div>
+                    <button class="btn-primary settings-button" type="submit">Simpan Kartu Identitas <span>></span></button>
+                </form>
+
+                <div class="settings-divider"></div>
+
                 <h3>Ubah Kata Sandi</h3>
                 <form class="settings-form" method="post" action="${pageContext.request.contextPath}/pelanggan/pengaturan">
                     <input type="hidden" name="action" value="password">

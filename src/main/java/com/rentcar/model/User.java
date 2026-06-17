@@ -8,6 +8,7 @@ public abstract class User {
     private String role;
     private String telepon;
     private String fotoProfil;
+    private String kartuIdentitas;
     private String statusAkun = "AKTIF";
 
     protected User() {
@@ -86,6 +87,18 @@ public abstract class User {
 
     public void setFotoProfil(String fotoProfil) {
         this.fotoProfil = fotoProfil;
+    }
+
+    public String getKartuIdentitas() {
+        return kartuIdentitas;
+    }
+
+    public void setKartuIdentitas(String kartuIdentitas) {
+        this.kartuIdentitas = kartuIdentitas;
+    }
+
+    public boolean hasKartuIdentitas() {
+        return kartuIdentitas != null && !kartuIdentitas.isBlank();
     }
 
     public String getStatusAkun() {

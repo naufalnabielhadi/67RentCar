@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <c:if test="${not empty error}">
+        <c:if test="${not empty error && !identityRequired}">
             <div class="alert error">${error}</div>
         </c:if>
 
@@ -44,6 +44,11 @@
                         <input type="hidden" name="idMobil" value="${mobil.idMobil}">
                         <h2>Informasi Penyewaan</h2>
                         <div class="alert error js-booking-error d-none" role="alert"></div>
+                        <c:if test="${identityRequired}">
+                            <div class="alert warning">
+                                KTP atau kartu identitas wajib diunggah sebelum booking. Lengkapi di Pengaturan Akun terlebih dahulu.
+                            </div>
+                        </c:if>
 
                         <div class="form-row">
                             <div>
@@ -74,7 +79,14 @@
 
                         <div class="actions booking-form-actions">
                             <a class="btn-secondary" href="${pageContext.request.contextPath}/mobil/detail?idMobil=${mobil.idMobil}">Kembali</a>
-                            <button class="btn-primary" type="submit">Konfirmasi Booking</button>
+                            <c:choose>
+                                <c:when test="${identityRequired}">
+                                    <a class="btn-primary" href="${pageContext.request.contextPath}/pelanggan/pengaturan">Lengkapi Identitas</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="btn-primary" type="submit">Konfirmasi Booking</button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </form>
                 </div>

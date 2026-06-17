@@ -21,7 +21,7 @@ Namun aplikasi sudah berkembang lebih jauh daripada class diagram awal. Banyak f
 
 | Class diagram | Ada di source | Catatan |
 | --- | --- | --- |
-| `User` | Ada: `User.java` | Di source memakai `username`, `role`, `telepon`, `fotoProfil`, `statusAkun`; diagram hanya mencantumkan atribut dasar. |
+| `User` | Ada: `User.java` | Di source memakai `username`, `role`, `telepon`, `fotoProfil`, `kartuIdentitas`, `statusAkun`; diagram hanya mencantumkan atribut dasar. |
 | `Admin` | Ada: `Admin.java` | Method domain ada, tetapi aksi nyata dilakukan oleh `AdminMobilServlet`, `AdminBookingServlet`, `MobilDAO`, dan `BookingDAO`. |
 | `Pelanggan` | Ada: `Pelanggan.java` | Method domain ada, tetapi aksi nyata dilakukan oleh servlet dan DAO. |
 | `RiwayatPemesanan` | Ada: `RiwayatPemesanan.java` | Diimplementasikan oleh `Admin` dan `Pelanggan`. |
@@ -36,7 +36,9 @@ Namun aplikasi sudah berkembang lebih jauh daripada class diagram awal. Banyak f
 - Login/register berbasis servlet dan database.
 - Status akun aktif/nonaktif.
 - Upload foto profil.
+- Upload KTP atau kartu identitas.
 - Upload bukti pembayaran.
+- Constraint aksi admin berdasarkan kelengkapan kartu identitas.
 - Admin dashboard.
 - Laporan admin.
 - Pencarian dan filter tabel.
@@ -93,7 +95,7 @@ Pilihan A - Sesuaikan class diagram dengan aplikasi saat ini:
   - DAO.
   - JSP/view boleh dicatat sebagai boundary/view.
 - Tambahkan atribut aktual pada model:
-  - `User.telepon`, `User.role`, `User.fotoProfil`, `User.statusAkun`.
+  - `User.telepon`, `User.role`, `User.fotoProfil`, `User.kartuIdentitas`, `User.statusAkun`.
   - `Mobil.tahun`, `Mobil.transmisi`, `Mobil.bahanBakar`, `Mobil.kapasitas`, `Mobil.gambar`, `Mobil.statusMobil`.
   - `Pembayaran.idBooking`, `Pembayaran.metodePembayaran`, `Pembayaran.buktiPembayaran`.
   - `BookingMobil.idUser`.

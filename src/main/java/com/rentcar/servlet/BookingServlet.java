@@ -38,6 +38,10 @@ public class BookingServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/mobil?error=unavailable");
                 return;
             }
+            User user = (User) request.getSession().getAttribute("user");
+            if (user == null || !user.hasKartuIdentitas()) {
+                request.setAttribute("identityRequired", true);
+            }
             request.setAttribute("mobil", mobil);
             request.getRequestDispatcher("/WEB-INF/views/pelanggan/booking.jsp").forward(request, response);
         } catch (SQLException ex) {
@@ -65,6 +69,11 @@ public class BookingServlet extends HttpServlet {
             String idMobil = request.getParameter("idMobil");
             String tanggalSewaParam = request.getParameter("tanggalSewa");
             String tanggalKembaliParam = request.getParameter("tanggalKembali");
+
+            if (!user.hasKartuIdentitas()) {
+                forwardIdentityRequired(request, response, idMobil);
+                return;
+            }
 
             if (isBlank(tanggalSewaParam)) {
                 forwardBookingError(request, response, idMobil, "Tanggal sewa wajib diisi.");
@@ -106,6 +115,13 @@ public class BookingServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setAttribute("mobil", safeFindMobil(idMobil));
         request.setAttribute("error", message);
+        request.getRequestDispatcher("/WEB-INF/views/pelanggan/booking.jsp").forward(request, response);
+    }
+
+    private void forwardIdentityRequired(HttpServletRequest request, HttpServletResponse response, String idMobil)
+            throws ServletException, IOException {
+        request.setAttribute("mobil", safeFindMobil(idMobil));
+        request.setAttribute("identityRequired", true);
         request.getRequestDispatcher("/WEB-INF/views/pelanggan/booking.jsp").forward(request, response);
     }
 

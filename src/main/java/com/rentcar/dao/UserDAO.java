@@ -103,6 +103,17 @@ public class UserDAO {
         }
     }
 
+    public boolean updateIdentityCard(String idUser, String kartuIdentitas) throws SQLException {
+        ensureUserColumns();
+        String sql = "UPDATE users SET kartu_identitas = ? WHERE id_user = ? AND status_akun = 'AKTIF'";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, kartuIdentitas);
+            stmt.setString(2, idUser);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
     public boolean deactivate(String idUser) throws SQLException {
         ensureUserColumns();
         String sql = "UPDATE users SET status_akun = 'NONAKTIF' WHERE id_user = ? AND role = 'PELANGGAN'";
@@ -115,17 +126,26 @@ public class UserDAO {
 
     public boolean deleteAccountAndHistory(String idUser) throws SQLException {
         ensureUserColumns();
-        String deletePembayaranSql = "DELETE p FROM pembayaran p JOIN booking b ON p.id_booking = b.id_booking WHERE b.id_user = ?";
-        String deleteDetailSql = "DELETE d FROM detail_booking d JOIN booking b ON d.id_booking = b.id_booking WHERE b.id_user = ?";
+        String deletePembayaranSql = "DELETE FROM pembayaran WHERE id_booking IN (SELECT id_booking FROM booking WHERE id_user = ?)";
+        String deleteDetailSql = "DELETE FROM detail_booking WHERE id_booking IN (SELECT id_booking FROM booking WHERE id_user = ?)";
         String deleteBookingSql = "DELETE FROM booking WHERE id_user = ?";
         String deleteUserSql = "DELETE FROM users WHERE id_user = ? AND role = 'PELANGGAN'";
 
         try (Connection conn = DatabaseConnection.getConnection()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement deletePembayaranStmt = conn.prepareStatement(deletePembayaranSql);
+            try (PreparedStatement activeBookingStmt = conn.prepareStatement(activeBookingSql());
+                 PreparedStatement deletePembayaranStmt = conn.prepareStatement(deletePembayaranSql);
                  PreparedStatement deleteDetailStmt = conn.prepareStatement(deleteDetailSql);
                  PreparedStatement deleteBookingStmt = conn.prepareStatement(deleteBookingSql);
                  PreparedStatement deleteUserStmt = conn.prepareStatement(deleteUserSql)) {
+                activeBookingStmt.setString(1, idUser);
+                try (ResultSet rs = activeBookingStmt.executeQuery()) {
+                    if (rs.next() && rs.getLong(1) > 0) {
+                        conn.rollback();
+                        throw new SQLException("Akun tidak dapat dihapus saat masih memiliki booking aktif.");
+                    }
+                }
+
                 deletePembayaranStmt.setString(1, idUser);
                 deletePembayaranStmt.executeUpdate();
 
@@ -146,6 +166,11 @@ public class UserDAO {
                 conn.setAutoCommit(true);
             }
         }
+    }
+
+    private String activeBookingSql() {
+        return "SELECT COUNT(*) FROM booking WHERE id_user = ? " +
+                "AND status IN ('MENUNGGU_KONFIRMASI', 'DIKONFIRMASI', 'MENUNGGU_PEMBAYARAN', 'DIBAYAR')";
     }
 
     private User mapUser(ResultSet rs) throws SQLException {
@@ -171,6 +196,7 @@ public class UserDAO {
 
         user.setTelepon(getOptionalString(rs, "telepon"));
         user.setFotoProfil(getOptionalString(rs, "foto_profil"));
+        user.setKartuIdentitas(getOptionalString(rs, "kartu_identitas"));
         String statusAkun = getOptionalString(rs, "status_akun");
         user.setStatusAkun(statusAkun == null ? "AKTIF" : statusAkun);
         return user;
@@ -209,6 +235,11 @@ public class UserDAO {
             if (!hasColumn(conn, "users", "foto_profil")) {
                 try (Statement stmt = conn.createStatement()) {
                     stmt.executeUpdate("ALTER TABLE users ADD COLUMN foto_profil VARCHAR(255) NULL AFTER status_akun");
+                }
+            }
+            if (!hasColumn(conn, "users", "kartu_identitas")) {
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate("ALTER TABLE users ADD COLUMN kartu_identitas VARCHAR(255) NULL AFTER foto_profil");
                 }
             }
         }

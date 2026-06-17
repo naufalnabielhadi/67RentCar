@@ -24,6 +24,12 @@ public class AdminBookingServlet extends HttpServlet {
 
         String idBooking = request.getParameter("idBooking");
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.hasKartuIdentitas()) {
+            session.setAttribute("error", "Lengkapi KTP atau kartu identitas admin di Pengaturan Akun sebelum memproses booking.");
+            response.sendRedirect(request.getContextPath() + "/admin/pesanan");
+            return;
+        }
         try {
             String servletPath = request.getServletPath();
             boolean updated;

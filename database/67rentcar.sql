@@ -15,7 +15,8 @@ CREATE TABLE users (
     password VARCHAR(100) NOT NULL,
     role ENUM('ADMIN', 'PELANGGAN') NOT NULL,
     status_akun ENUM('AKTIF', 'NONAKTIF') NOT NULL DEFAULT 'AKTIF',
-    foto_profil VARCHAR(255) NULL
+    foto_profil VARCHAR(255) NULL,
+    kartu_identitas VARCHAR(255) NULL
 );
 
 CREATE TABLE mobil (
@@ -68,9 +69,9 @@ CREATE TABLE pembayaran (
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO users (id_user, username, email, telepon, password, role, status_akun, foto_profil) VALUES
-('ADM001', 'Administrator', 'admin@67rentcar.com', '0812-0000-0067', 'admin123', 'ADMIN', 'AKTIF', NULL),
-('PLG001', 'Budi Pelanggan', 'sigitbimantoro@email.com', '0812-3456-7890', 'user123', 'PELANGGAN', 'AKTIF', NULL);
+INSERT INTO users (id_user, username, email, telepon, password, role, status_akun, foto_profil, kartu_identitas) VALUES
+('ADM001', 'Administrator', 'admin@67rentcar.com', '0812-0000-0067', 'admin123', 'ADMIN', 'AKTIF', NULL, NULL),
+('PLG001', 'Budi Pelanggan', 'sigitbimantoro@email.com', '0812-3456-7890', 'user123', 'PELANGGAN', 'AKTIF', NULL, NULL);
 
 INSERT INTO mobil (id_mobil, merk, model, plat_nomor, harga_sewa_per_hari, status, status_mobil, tahun, transmisi, bahan_bakar, kapasitas, gambar) VALUES
 ('MBL001', 'Toyota', 'Avanza', 'B 1234 RCA', 350000, TRUE, 'TERSEDIA', 2022, 'Manual', 'Bensin', '7 Kursi', 'toyota-avanza.svg'),
