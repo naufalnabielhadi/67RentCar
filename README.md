@@ -248,16 +248,3 @@ cd 67RentCar
 git checkout dev
 git checkout -b feature/nama-fitur
 ```
-
-Contoh push branch fitur:
-
-```bash
-git add .
-git commit -m "Implement fitur pembayaran"
-git push -u origin feature/payment-sigit
-```
-
-*.log
-*.iml
-.env
-```
