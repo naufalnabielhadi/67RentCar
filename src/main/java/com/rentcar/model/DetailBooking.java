@@ -24,6 +24,13 @@ public class DetailBooking {
         this.subtotal = subtotal;
     }
 
+    public DetailBooking(String idDetail, LocalDate tanggalSewa, LocalDate tanggalKembali, double subtotal) {
+        this.idDetail = idDetail;
+        this.tanggalSewa = tanggalSewa;
+        this.tanggalKembali = tanggalKembali;
+        this.subtotal = subtotal;
+    }
+
     public long hitungSisaDurasi() {
         if (tanggalSewa == null || tanggalKembali == null) {
             return 0;
@@ -37,6 +44,14 @@ public class DetailBooking {
 
     public void setIdDetail(String idDetail) {
         this.idDetail = idDetail;
+    }
+
+    public String getId() {
+        return getIdDetail();
+    }
+
+    public void setId(String id) {
+        setIdDetail(id);
     }
 
     public String getIdBooking() {

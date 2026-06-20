@@ -183,6 +183,20 @@ public class MobilDAO {
         }
     }
 
+    public boolean deleteIfDeletable(String idMobil) throws SQLException {
+        String sql = "DELETE FROM mobil " +
+                "WHERE id_mobil = ? " +
+                "AND status_mobil IN (?, ?) " +
+                "AND NOT EXISTS (SELECT 1 FROM detail_booking WHERE detail_booking.id_mobil = mobil.id_mobil)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idMobil);
+            stmt.setString(2, Mobil.STATUS_TERSEDIA);
+            stmt.setString(3, Mobil.STATUS_TIDAK_TERSEDIA);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
     public boolean hasBookingHistory(String idMobil) throws SQLException {
         String sql = "SELECT COUNT(*) FROM detail_booking WHERE id_mobil = ?";
         try (Connection conn = DatabaseConnection.getConnection();

@@ -19,6 +19,10 @@ public class Pembayaran {
         this(idPembayaran, idBooking, jumlah, status, metodePembayaran, null, tanggalPembayaran);
     }
 
+    public Pembayaran(String idPembayaran, double jumlah, String status, LocalDate tanggalPembayaran) {
+        this(idPembayaran, null, jumlah, status, null, null, tanggalPembayaran);
+    }
+
     public Pembayaran(String idPembayaran, String idBooking, double jumlah, String status,
                       String metodePembayaran, String buktiPembayaran, LocalDate tanggalPembayaran) {
         this.idPembayaran = idPembayaran;
@@ -65,6 +69,14 @@ public class Pembayaran {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public StatusPembayaran getStatusPembayaran() {
+        return status == null || status.isBlank() ? null : StatusPembayaran.valueOf(status.replace(" ", "_"));
+    }
+
+    public void setStatus(StatusPembayaran status) {
+        this.status = status == null ? null : status.name();
     }
 
     public String getMetodePembayaran() {

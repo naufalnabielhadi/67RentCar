@@ -9,6 +9,7 @@ public abstract class User {
     private String telepon;
     private String fotoProfil;
     private String kartuIdentitas;
+    private StatusIdentitas statusIdentitas = StatusIdentitas.BELUM_DIVERIFIKASI;
     private String statusAkun = "AKTIF";
 
     protected User() {
@@ -27,8 +28,20 @@ public abstract class User {
                 && this.password != null && this.password.equals(password);
     }
 
+    public boolean logIn() {
+        return isAktif();
+    }
+
     public void logout() {
         // Session web dihapus dari Servlet.
+    }
+
+    public void logOut() {
+        logout();
+    }
+
+    public String signUp() {
+        return "User melakukan pendaftaran";
     }
 
     public abstract String laman();
@@ -47,6 +60,14 @@ public abstract class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUserName() {
+        return getUsername();
+    }
+
+    public void setUserName(String name) {
+        setUsername(name);
     }
 
     public String getEmail() {
@@ -95,10 +116,38 @@ public abstract class User {
 
     public void setKartuIdentitas(String kartuIdentitas) {
         this.kartuIdentitas = kartuIdentitas;
+        if (kartuIdentitas != null && !kartuIdentitas.isBlank()) {
+            this.statusIdentitas = StatusIdentitas.TERVERIFIKASI;
+        }
     }
 
     public boolean hasKartuIdentitas() {
         return kartuIdentitas != null && !kartuIdentitas.isBlank();
+    }
+
+    public void uploadKartuIdentitas(String kartuIdentitas) {
+        setKartuIdentitas(kartuIdentitas);
+    }
+
+    public void uploadKatruIdentitas() {
+        if (hasKartuIdentitas()) {
+            statusIdentitas = StatusIdentitas.TERVERIFIKASI;
+        }
+    }
+
+    public boolean cekKartuIdentitas() {
+        return hasKartuIdentitas();
+    }
+
+    public StatusIdentitas getStatusIdentitas() {
+        if (hasKartuIdentitas() && statusIdentitas == StatusIdentitas.BELUM_DIVERIFIKASI) {
+            return StatusIdentitas.TERVERIFIKASI;
+        }
+        return statusIdentitas;
+    }
+
+    public void setStatusIdentitas(StatusIdentitas statusIdentitas) {
+        this.statusIdentitas = statusIdentitas == null ? StatusIdentitas.BELUM_DIVERIFIKASI : statusIdentitas;
     }
 
     public String getStatusAkun() {

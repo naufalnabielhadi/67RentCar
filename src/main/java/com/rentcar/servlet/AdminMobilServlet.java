@@ -76,7 +76,7 @@ public class AdminMobilServlet extends HttpServlet {
             request.setAttribute("query", query);
             request.getRequestDispatcher("/WEB-INF/views/admin/kelola-mobil.jsp").forward(request, response);
         } catch (SQLException ex) {
-            request.setAttribute("error", "Gagal memuat data mobil: " + ex.getMessage());
+            request.setAttribute("error", "Gagal memuat data mobil. Silakan coba lagi.");
             request.getRequestDispatcher("/WEB-INF/views/admin/kelola-mobil.jsp").forward(request, response);
         }
     }
@@ -156,17 +156,23 @@ public class AdminMobilServlet extends HttpServlet {
                 forwardListError(request, response, "Mobil tidak ditemukan atau gagal dihapus.");
                 return;
             }
-            if (!Mobil.STATUS_TERSEDIA.equals(mobil.getStatusMobil()) || mobilDAO.hasBookingHistory(idMobil)) {
-                forwardListError(request, response, "Mobil tidak dapat dihapus karena sedang tidak tersedia atau memiliki riwayat booking.");
+            boolean deletableStatus = Mobil.STATUS_TERSEDIA.equals(mobil.getStatusMobil())
+                    || Mobil.STATUS_TIDAK_TERSEDIA.equals(mobil.getStatusMobil());
+            if (!deletableStatus) {
+                forwardListError(request, response, "Mobil hanya dapat dihapus jika berstatus Tersedia atau Tidak Tersedia.");
                 return;
             }
-            if (!mobilDAO.delete(idMobil)) {
+            if (mobilDAO.hasBookingHistory(idMobil)) {
+                forwardListError(request, response, "Mobil tidak dapat dihapus karena sudah memiliki riwayat booking.");
+                return;
+            }
+            if (!mobilDAO.deleteIfDeletable(idMobil)) {
                 forwardListError(request, response, "Mobil tidak ditemukan atau gagal dihapus.");
                 return;
             }
             response.sendRedirect(request.getContextPath() + "/admin/mobil");
         } catch (SQLException ex) {
-            forwardListError(request, response, "Mobil tidak dapat dihapus karena sedang tidak tersedia atau memiliki riwayat booking.");
+            forwardListError(request, response, "Mobil tidak dapat dihapus karena status berubah atau sudah memiliki riwayat booking.");
         }
     }
 

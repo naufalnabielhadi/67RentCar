@@ -147,12 +147,6 @@ Catatan: password masih plain text karena project ini dibuat untuk pembelajaran 
 Dokumen pendukung project:
 
 - `docs/USER_MANUAL.md` berisi template user manual lengkap dengan keterangan screenshot yang perlu ditambahkan.
-- `docs/CLASS_DIAGRAM_AUDIT.md` berisi audit kesesuaian aplikasi dengan class diagram.
-
-SQL tambahan:
-
-- `database/reset_except_users_mobil.sql` untuk mengosongkan data transaksi tanpa menghapus tabel `users` dan `mobil`.
-- `database/update_budi_email.sql` untuk memperbarui email akun dummy pelanggan pada database lama.
 
 ## Pembagian Tugas Anggota
 

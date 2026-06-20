@@ -845,6 +845,13 @@
     vertical-align: middle;
 }
 
+.admin-car-table td:first-child {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.25;
+}
+
 .admin-car-table .actions {
     flex-wrap: nowrap;
     min-width: 0;

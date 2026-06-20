@@ -260,15 +260,7 @@ SUDAH DIKEMBALIKAN
     -> TERSEDIA atau TIDAK TERSEDIA setelah admin mengedit data mobil
 ```
 
-## 8. Reset Data Transaksi
-
-Untuk mengosongkan data booking, detail booking, dan pembayaran tanpa menghapus `users` dan `mobil`, jalankan:
-
-```text
-database/reset_except_users_mobil.sql
-```
-
-## 9. Catatan Screenshot Untuk Laporan
+## 8. Catatan Screenshot Untuk Laporan
 
 Screenshot yang disarankan:
 

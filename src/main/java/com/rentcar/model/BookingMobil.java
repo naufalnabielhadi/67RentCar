@@ -16,9 +16,18 @@ public class BookingMobil {
         this.totalBiaya = totalBiaya;
     }
 
+    public BookingMobil(String idBooking, String status) {
+        this.idBooking = idBooking;
+        this.status = status;
+    }
+
     public double hitungTotalBiaya(double hargaPerHari, long durasiHari) {
         totalBiaya = hargaPerHari * Math.max(1, durasiHari);
         return totalBiaya;
+    }
+
+    public void selesaikanBooking() {
+        this.status = StatusBooking.SELESAI.name();
     }
 
     public String getIdBooking() {
@@ -43,6 +52,14 @@ public class BookingMobil {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public StatusBooking getStatusBooking() {
+        return status == null || status.isBlank() ? null : StatusBooking.valueOf(status);
+    }
+
+    public void setStatus(StatusBooking status) {
+        this.status = status == null ? null : status.name();
     }
 
     public double getTotalBiaya() {

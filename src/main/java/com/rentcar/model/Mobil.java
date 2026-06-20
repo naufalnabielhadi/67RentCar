@@ -97,9 +97,17 @@ public class Mobil {
         return STATUS_TERSEDIA.equals(statusMobil);
     }
 
+    public StatusMobil getStatus() {
+        return StatusMobil.valueOf(statusMobil);
+    }
+
     public void setStatus(boolean status) {
         this.status = status;
         this.statusMobil = status ? STATUS_TERSEDIA : STATUS_TIDAK_TERSEDIA;
+    }
+
+    public void setStatus(StatusMobil status) {
+        setStatusMobil(status == null ? null : status.name());
     }
 
     public String getStatusMobil() {
