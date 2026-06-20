@@ -31,7 +31,7 @@ Password : admin123
 Pelanggan:
 
 ```text
-Email    : sigitbimantoro@email.com
+Email    : budi@gmail.com
 Password : user123
 ```
 
@@ -166,7 +166,7 @@ Admin dapat:
 
 - Menambah mobil baru.
 - Mengedit data mobil.
-- Menghapus mobil yang belum memiliki riwayat booking dan masih tersedia.
+- Menghapus mobil berstatus `Tersedia` atau `Tidak Tersedia` selama belum memiliki riwayat booking.
 - Mengubah status mobil hanya ke `Tersedia` atau `Tidak Tersedia`.
 
 Catatan status:

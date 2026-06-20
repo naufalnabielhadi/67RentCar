@@ -43,6 +43,10 @@ public class DokumenIdentitas {
         return namaFile;
     }
 
+    public String getNamaFilel() {
+        return getNamaFile();
+    }
+
     public void setNamaFile(String namaFile) {
         this.namaFile = namaFile;
     }

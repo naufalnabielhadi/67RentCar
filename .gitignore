@@ -1,4 +1,5 @@
 target/
+.agents/
 67rentcar-submission/
 67rentcar-submission.zip
 *.class

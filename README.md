@@ -136,7 +136,7 @@ Password: admin123
 Pelanggan:
 
 ```text
-Email: sigitbimantoro@email.com
+Email: budi@gmail.com
 Password: user123
 ```
 
@@ -263,6 +263,7 @@ Folder dan file hasil build tidak perlu masuk repository. File tersebut sudah di
 
 ```text
 target/
+.agents/
 *.class
 *.war
 *.jar

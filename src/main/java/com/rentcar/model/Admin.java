@@ -21,6 +21,10 @@ public class Admin extends User implements RiwayatPemesanan {
         return "Admin menghapus data mobil";
     }
 
+    public String selesaikanBooking() {
+        return "Admin menyelesaikan booking";
+    }
+
     @Override
     public String getKartuIdentitas() {
         return super.getKartuIdentitas();
