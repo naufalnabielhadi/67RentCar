@@ -257,24 +257,6 @@ git commit -m "Implement fitur pembayaran"
 git push -u origin feature/payment-sigit
 ```
 
-## File Yang Tidak Dipush
-
-Folder dan file hasil build tidak perlu masuk repository. File tersebut sudah diatur di `.gitignore`, terutama:
-
-```text
-target/
-.agents/
-*.class
-*.war
-*.jar
-
-.DS_Store
-Thumbs.db
-
-.vscode/
-.idea/
-nbproject/private/
-
 *.log
 *.iml
 .env
