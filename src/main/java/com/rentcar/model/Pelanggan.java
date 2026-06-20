@@ -22,6 +22,11 @@ public class Pelanggan extends User implements RiwayatPemesanan {
     }
 
     @Override
+    public String getKartuIdentitas() {
+        return super.getKartuIdentitas();
+    }
+
+    @Override
     public String lihatRiwayatPesanan() {
         return "Pelanggan melihat riwayat pesanan";
     }

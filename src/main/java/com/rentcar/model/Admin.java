@@ -22,6 +22,11 @@ public class Admin extends User implements RiwayatPemesanan {
     }
 
     @Override
+    public String getKartuIdentitas() {
+        return super.getKartuIdentitas();
+    }
+
+    @Override
     public String lihatRiwayatPesanan() {
         return "Admin melihat semua riwayat pesanan";
     }
