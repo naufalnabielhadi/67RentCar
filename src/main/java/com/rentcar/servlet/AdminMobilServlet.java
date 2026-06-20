@@ -289,6 +289,29 @@ public class AdminMobilServlet extends HttpServlet {
         try (InputStream input = imagePart.getInputStream()) {
             Files.copy(input, deployedTarget, StandardCopyOption.REPLACE_EXISTING);
         }
+
+        Path sourceUploadDir = resolveSourceUploadDir(deployedUploadDir);
+        if (sourceUploadDir != null) {
+            Files.createDirectories(sourceUploadDir);
+            Files.copy(deployedTarget, sourceUploadDir.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    private Path resolveSourceUploadDir(Path deployedUploadDir) {
+        Path normalized = deployedUploadDir.toAbsolutePath().normalize();
+        for (Path current = normalized; current != null; current = current.getParent()) {
+            Path fileName = current.getFileName();
+            if (fileName != null && "target".equalsIgnoreCase(fileName.toString())) {
+                Path projectRoot = current.getParent();
+                if (projectRoot == null) {
+                    return null;
+                }
+                Path sourceUploadDir = projectRoot.resolve(Paths.get("src", "main", "webapp", "assets", UPLOAD_ASSET_DIR))
+                        .normalize();
+                return sourceUploadDir.equals(normalized) ? null : sourceUploadDir;
+            }
+        }
+        return null;
     }
 
     private String getExtension(String fileName) {

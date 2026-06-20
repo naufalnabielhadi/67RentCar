@@ -91,6 +91,7 @@ http://localhost:8080/67rentcar
 7. Booking masuk ke riwayat dengan status `MENUNGGU KONFIRMASI`.
 
 Catatan: pengguna yang belum mengunggah kartu identitas akan diminta melengkapi data terlebih dahulu.
+Kartu identitas wajib dilengkapi sebelum pelanggan dapat membuat booking dan melanjutkan transaksi pembayaran.
 
 [Gambar: Form booking dan ringkasan biaya]
 
@@ -142,7 +143,8 @@ Catatan: pengguna yang belum mengunggah kartu identitas akan diminta melengkapi 
 2. Ubah profil atau password.
 3. Unggah KTP atau kartu identitas.
 4. Format kartu identitas yang diterima adalah PNG, JPG, atau JPEG dengan ukuran maksimal 5MB.
-5. Sistem menampilkan pesan berhasil atau gagal sebagai bagian dari UI aplikasi.
+5. Pastikan sistem menampilkan pesan berhasil.
+6. Setelah kartu identitas tersimpan, pelanggan dapat membuat booking dan melakukan transaksi pembayaran.
 
 [Gambar: Halaman pengaturan pelanggan]
 

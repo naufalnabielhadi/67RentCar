@@ -77,4 +77,5 @@ INSERT INTO mobil (id_mobil, merk, model, plat_nomor, harga_sewa_per_hari, statu
 ('MBL001', 'Toyota', 'Avanza', 'B 1234 RCA', 350000, TRUE, 'TERSEDIA', 2022, 'Manual', 'Bensin', '7 Kursi', 'toyota-avanza.svg'),
 ('MBL002', 'Honda', 'Brio', 'B 5678 RCB', 300000, TRUE, 'TERSEDIA', 2021, 'Otomatis', 'Bensin', '5 Kursi', 'honda-brio.svg'),
 ('MBL003', 'Mitsubishi', 'Xpander', 'B 9012 RCC', 450000, TRUE, 'TERSEDIA', 2023, 'Manual', 'Bensin', '7 Kursi', 'mitsubishi-xpander.svg'),
-('MBL004', 'Daihatsu', 'Terios', 'B 3456 RCD', 400000, TRUE, 'TERSEDIA', 2020, 'Otomatis', 'Bensin', '7 Kursi', 'daihatsu-terios.svg');
+('MBL004', 'Daihatsu', 'Terios', 'B 3456 RCD', 400000, TRUE, 'TERSEDIA', 2020, 'Otomatis', 'Bensin', '7 Kursi', 'daihatsu-terios.svg'),
+('MBL1781970973229', 'Toyota', 'Avanza', 'D 6767 MBG', 675000, TRUE, 'TERSEDIA', 2024, 'Otomatis', 'Bensin', '7 Kursi', 'uploads/cars/toyota-avanza-1781970973224.png');
